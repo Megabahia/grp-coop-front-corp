@@ -1,0 +1,98 @@
+<div class="content-body">
+    <!-- users list start -->
+    <section class="ecommerce-details">
+        <div class="card">
+            <h5 class="card-header">Búsqueda de prospectos</h5>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-3">
+                        <input type="text" class="form-control form-control-sm" placeholder="Identificación" [(ngModel)]="cobroMonedas.identificacion">
+                    </div>
+                    <div class="col-md-2">
+                        <input type="text" class="form-control form-control-sm" placeholder="Código de Cobro" [(ngModel)]="cobroMonedas.codigoCobro">
+                    </div>
+                    <div class="col-md-2">
+                        <input type="text" class="form-control form-control-sm" placeholder="Correo" [(ngModel)]="cobroMonedas.correo">
+                    </div>
+                    <div class="col-md-2">
+                        <input type="text" class="form-control form-control-sm" placeholder="Monto" [(ngModel)]="cobroMonedas.monto">
+                    </div>
+
+                    <div class="col-md-2">
+                        <a class="btn btn-primary" (click)="obtenerListaCobros()">
+                            <i data-feather='search'></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card card-company-table">
+            <div class="card-datatable table-responsive pt-0">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Identificación</th>
+                            <th>Código de cobro</th>
+                            <th>Correo</th>
+                            <th>Monto</th>
+                            <th>Estado</th>
+                            <th>Preautorizar</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let cobro of listaCobros">
+                            <td>
+                                {{cobro.identificacion}}
+                            </td>
+                            <td>{{cobro.codigoCobro}}</td>
+                            <td>{{cobro.correo}}</td>
+                            <td>
+                                {{cobro.monto}}
+                            </td>
+                            <td>
+                                {{cobro.estado}}
+                            </td>
+                            <td>
+                                <a class="avatar bg-primary mr-1" *ngIf="cobro.estado != 'Pre-autorizado'" (click)="procesarCobro(cobro._id)">
+                                    <div class="avatar-content" data-toggle="tooltip" data-placement="bottom" title="Calificar">
+                                        <i data-feather='dollar-sign'></i>
+                                    </div>
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <ngb-pagination #paginator [collectionSize]="collectionSize" [(page)]="page" [(pageSize)]="page_size" [maxSize]="5" [ellipses]="false" [boundaryLinks]="true"></ngb-pagination>
+        </div>
+    </section>
+    <!-- users list ends -->
+</div>
+<ng-template #confirmarPreautorizacionMdl let-modal>
+    <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalCenterTitle">Pre-autorización de Cobro</h5>
+        <button type="button" class="close" (click)="modal.dismiss('Cross click')" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body" tabindex="0" ngbAutofocus>
+        <div>¿Desea pre-autorizar este cobro?</div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light" (click)="preautorizarCobro()">SI</button>
+    </div>
+</ng-template>
+<ng-template #mensajeModal let-modal>
+    <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalCenterTitle">Mensaje</h5>
+        <button type="button" class="close" (click)="modal.dismiss('Cross click')" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body" tabindex="0" ngbAutofocus>
+        <div [innerHTML]="mensaje"></div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light" (click)="cerrarModal()">Cerrar</button>
+    </div>
+</ng-template>

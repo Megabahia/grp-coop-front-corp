@@ -1,0 +1,396 @@
+<div class="blog-wrapper">
+    <div class="content-wrapper">
+        <div class="content-detached content-center">
+            <div class="content-body">
+                <!-- Blog List -->
+                <div class="blog-list-wrapper">
+                    <!-- Blog List Items -->
+                    <div class="row">
+                        <div class="col-md-2">
+
+                        </div>
+                        <div class="col-md-8 col-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <label>Código de Cobro:</label>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control form-control-sm" id="codigoCobro" name="codigoCobro" placeholder="Código de Cobro" [(ngModel)]="codigoCobro" (keyup.enter)="obtenerListaCobros()" >
+                                            </div>
+                                        </div>
+
+<!--                                        <div class="col-md-2">-->
+<!--                                            <a class="btn btn-primary" (click)="obtenerListaCobros()">-->
+<!--                                                <i data-feather='search'></i>-->
+<!--                                            </a>-->
+<!--                                        </div>-->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2">
+
+                        </div>
+                        <div class="col-md-8 col-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-5">
+                                            <label>Número de identificación del cliente:</label>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control form-control-sm" id="identificacion" name="identificacion" placeholder="Nro de identificación" disabled [(ngModel)]="cobroConCodigo.identificacion">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-5">
+                                            <label>Nombres del Cliente:</label>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control form-control-sm" id="nombres" name="nombres" placeholder="Nombres del Cliente" disabled [(ngModel)]="cobroConCodigo.nombres">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-5">
+                                            <label>Apellidos del Cliente:</label>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control form-control-sm" id="apellidos" name="apellidos" placeholder="Apellidos del cliente" disabled [(ngModel)]="cobroConCodigo.apellidos">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-5">
+                                            <label>Fecha de Cobro:</label>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control form-control-sm" id="fechaCobro" name="fechaCobro" placeholder="Fecha de cobro" disabled [(ngModel)]="cobroConCodigo.fechaCobro">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <form [formGroup]="cobroForm">
+                                        <div class="row">
+                                            <div class="col-md-5">
+                                                <label>Monto Total de Factura $:</label>
+                                            </div>
+                                            <div class="col-md-7">
+                                                <div class="form-group">
+                                                    <input type="number" class="form-control form-control-sm" formControlName="montoTotal" id="montoTotal" name="montoTotal" placeholder="Monto Total de Factura $" [(ngModel)]="generarCobro.montoTotalFactura">
+                                                    <div *ngIf="cobroSubmitted && cobForm.montoTotal.errors" class="invalid-feedback" style="display: block;">
+                                                        <div *ngIf="cobForm.montoTotal.errors.required">Monto Total es requerido</div>
+                                                        <div *ngIf="cobForm.montoTotal.errors.min">Debe ser mayor
+                                                            a 0
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-5">
+                                                <label>Monto Big Puntos:</label>
+                                            </div>
+                                            <div class="col-md-7">
+                                                <div class="form-group">
+                                                    <input type="number" class="form-control form-control-sm" formControlName="montoSuperMonedas"  name="montoSuperMonedas" placeholder="Monto Big Puntos:" [(ngModel)]="generarCobro.montoSupermonedas">
+                                                    <div *ngIf="cobroSubmitted && cobForm.montoSuperMonedas.errors" class="invalid-feedback" style="display: block;">
+                                                        <div *ngIf="cobForm.montoSuperMonedas.errors.required">Monto Big Puntos es requerido</div>
+                                                        <div *ngIf="cobForm.montoSuperMonedas.errors.min">Debe ser mayor
+                                                            a 0
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-5">
+                                                <label>Número de factura:</label>
+                                            </div>
+                                            <div class="col-md-7">
+                                                <div class="form-group">
+                                                    <input type="number" class="form-control form-control-sm" formControlName="numeroFactura"  name="numeroFactura" placeholder="Nro Factura es requerido" [(ngModel)]="generarCobro.numeroFactura">
+                                                    <div *ngIf="cobroSubmitted && cobForm.numeroFactura.errors" class="invalid-feedback" style="display: block;">
+                                                        <div *ngIf="cobForm.numeroFactura.errors.required">Nro Factura es requerido</div>
+                                                        <div *ngIf="cobForm.numeroFactura.errors.min">Debe ser mayor
+                                                            a 0
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <button class="btn btn-primary" (click)="procesarCobro()" [disabled]="cobrar">
+                                                Cobrar
+                                            </button>
+                                        </div>
+                                        <div class="col-md-4">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<ng-template #preautorizacionCobroMdl let-modal>
+    <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalCenterTitle">Pre-autorización de Cobro</h5>
+        <button type="button" class="close" (click)="modal.dismiss('Cross click')" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body" tabindex="0" ngbAutofocus>
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-5">
+                        <label>Código de cobro:</label>
+                    </div>
+                    <div class="col-md-7">
+                        <div class="form-group">
+                            <input type="text" class="form-control form-control-sm" id="codigoCobro" name="codigoCobro" placeholder="Código de Cobro" disabled [(ngModel)]="cobroConCodigo.codigoCobro">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-5">
+                        <label>Número de Pre-Autorización:</label>
+                    </div>
+                    <div class="col-md-7">
+                        <div class="form-group">
+                            <input type="text" class="form-control form-control-sm" id="pre-autorizacion" name="pre-autorizacion" placeholder="Número de Pre-Autorización" disabled [(ngModel)]="cobroConCodigo.autorizacion">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-5">
+                        <label>Monto Total de Factura $:</label>
+                    </div>
+                    <div class="col-md-7">
+                        <div class="form-group">
+                            <input type="text" class="form-control form-control-sm" id="montoTotal" name="montoTotal" placeholder="Monto Total de Factura $" disabled [(ngModel)]="cobroConCodigo.montoTotalFactura">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-5">
+                        <label>Monto $ Supermonedas:</label>
+                    </div>
+                    <div class="col-md-7">
+                        <div class="form-group">
+                            <input type="text" class="form-control form-control-sm" id="montoSupermonedas" name="montoSupermonedas" placeholder="Monto $ Supermonedas" disabled [(ngModel)]="cobroConCodigo.montoSupermonedas">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-5">
+                        <label>Número de Identificación del Cliente:</label>
+                    </div>
+                    <div class="col-md-7">
+                        <div class="form-group">
+                            <input type="text" class="form-control form-control-sm" id="identificacion" name="identificacion" placeholder="Número de identificación del Cliente" disabled [(ngModel)]="cobroConCodigo.identificacion">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-5">
+                        <label>Nombres del Cliente:</label>
+                    </div>
+                    <div class="col-md-7">
+                        <div class="form-group">
+                            <input type="text" class="form-control form-control-sm" id="nombres" name="nombres" placeholder="Nombres del Cliente" disabled [(ngModel)]="cobroConCodigo.nombres">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-5">
+                        <label>Apellidos del Cliente:</label>
+                    </div>
+                    <div class="col-md-7">
+                        <div class="form-group">
+                            <input type="text" class="form-control form-control-sm" id="apellidos" name="apellidos" placeholder="Apellidos del cliente" disabled [(ngModel)]="cobroConCodigo.apellidos">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-5">
+                        <label>Fecha de Cobro:</label>
+                    </div>
+                    <div class="col-md-7">
+                        <div class="form-group">
+                            <input type="text" class="form-control form-control-sm" id="fechaCobro" name="fechaCobro" placeholder="Fecha de cobro" disabled [(ngModel)]="cobroConCodigo.fechaCobro">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-3">
+                    </div>
+                    <div class="col-md-6">
+                        <a class="btn btn-primary" (click)="confirmarCobro()">
+                            Confirmar Cobro
+                        </a>
+                    </div>
+                    <div class="col-md-3">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="modal-footer">
+    </div>
+</ng-template>
+<ng-template #confirmacionCobroMdl let-modal>
+<div id="print-section">
+    <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalCenterTitle">Confirmación de Cobro</h5>
+        <button type="button" class="close" (click)="modal.dismiss('Cross click')" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body" tabindex="0" ngbAutofocus>
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-5">
+                        <label>Código de cobro:</label>
+                    </div>
+                    <div class="col-md-7">
+                        <div class="form-group">
+                            <input type="text" class="form-control form-control-sm" id="codigoCobro" name="codigoCobro" placeholder="Código de Cobro" disabled [(ngModel)]="cobroConCodigo.codigoCobro">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-5">
+                        <label>Número de Autorización:</label>
+                    </div>
+                    <div class="col-md-7">
+                        <div class="form-group">
+                            <input type="text" class="form-control form-control-sm" id="codigoCobro" name="codigoCobro" placeholder="Número de Pre-Autorización" disabled [(ngModel)]="cobroConCodigo.autorizacion">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-5">
+                        <label>Monto Total de Factura $:</label>
+                    </div>
+                    <div class="col-md-7">
+                        <div class="form-group">
+                            <input type="text" class="form-control form-control-sm" id="codigoCobro" name="codigoCobro" placeholder="Monto Total de Factura $" disabled [(ngModel)]="cobroConCodigo.montoTotalFactura">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-5">
+                        <label>Monto $ Supermonedas:</label>
+                    </div>
+                    <div class="col-md-7">
+                        <div class="form-group">
+                            <input type="text" class="form-control form-control-sm" id="codigoCobro" name="codigoCobro" placeholder="Monto $ Supermonedas" disabled [(ngModel)]="cobroConCodigo.montoSupermonedas">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-5">
+                        <label>Número de Identificación del Cliente:</label>
+                    </div>
+                    <div class="col-md-7">
+                        <div class="form-group">
+                            <input type="text" class="form-control form-control-sm" id="codigoCobro" name="codigoCobro" placeholder="Número de identificación del Cliente" disabled [(ngModel)]="cobroConCodigo.identificacion">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-5">
+                        <label>Nombres del Cliente:</label>
+                    </div>
+                    <div class="col-md-7">
+                        <div class="form-group">
+                            <input type="text" class="form-control form-control-sm" id="codigoCobro" name="codigoCobro" placeholder="Nombres del Cliente" disabled [(ngModel)]="cobroConCodigo.nombres">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-5">
+                        <label>Apellidos del Cliente:</label>
+                    </div>
+                    <div class="col-md-7">
+                        <div class="form-group">
+                            <input type="text" class="form-control form-control-sm" id="codigoCobro" name="codigoCobro" placeholder="Apellidos del cliente" disabled [(ngModel)]="cobroConCodigo.apellidos">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-5">
+                        <label>Fecha de Cobro:</label>
+                    </div>
+                    <div class="col-md-7">
+                        <div class="form-group">
+                            <input type="text" class="form-control form-control-sm" id="codigoCobro" name="codigoCobro" placeholder="Fecha de cobro" disabled [(ngModel)]="cobroConCodigo.fechaCobro">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-1">
+                    </div>
+                    <div class="col-md-5">
+                        <button class="btn btn-primary" [useExistingCss]="true" printSectionId="print-section" ngxPrint>
+                            Imprimir
+                        </button>
+                    </div>
+                    <div class="col-md-5">
+                        <a class="btn btn-primary" (click)="nuevoCobro()">
+                            Nuevo Cobro
+                        </a>
+                    </div>
+                    <div class="col-md-1">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="modal-footer">
+    </div>
+</div>
+</ng-template>
+<ng-template #mensajeModal let-modal>
+    <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalCenterTitle">Mensaje</h5>
+        <button type="button" class="close" (click)="modal.dismiss('Cross click')" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body" tabindex="0" ngbAutofocus>
+        <div [innerHTML]="mensaje"></div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light" (click)="cerrarModal()">Cerrar</button>
+    </div>
+</ng-template>

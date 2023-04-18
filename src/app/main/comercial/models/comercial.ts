@@ -1,0 +1,83 @@
+export class NotaPedido {
+  id: string;
+  numeroFactura: string;
+  fecha: string;
+  tipoIdentificacion: string;
+  identificacion: string;
+  razonSocial: string;
+  direccion: string;
+  telefono: string;
+  correo: string;
+  nombreVendedor: string;
+  subTotal: number;
+  descuento: number;
+  iva: number;
+  total: number;
+  canal: string;
+  numeroProductosComprados: number;
+  user_id: string;
+  detalles: Array<any>;
+  empresaComercial: string;
+  credito: string;
+}
+export class Credito {
+  numero: string;
+  correoCorp: string;
+  canal: string;
+  monto: string;
+  plazo: string;
+  aceptaTerminos: string;
+  estado: string;
+  user_id: string;
+  reporteBuro: string;
+  calificacionBuro: string;
+  buroValido: string;
+  identificacion: string;
+  ruc: string;
+  rolesPago: string;
+  panillaIESS: string;
+  tomarSolicitud: string;
+  fechaAprobacion: string;
+  tipoCredito: string;
+  concepto: string;
+  documentoAprobacion: string;
+  empresasAplican: string;
+  vigencia: string;
+  interes: string;
+  nombres: string;
+  apellidos: string;
+  nombresCompleto: string;
+  fechaAprobado: string;
+  numeroIdentificacion: string;
+  codigoCliente: string;
+  codigoCorp: string;
+  numeroFactura: string;
+  montoVenta: string;
+  checkPagare: string;
+  checkTablaAmortizacion: string;
+  checkManualPago: string;
+  checkCedula: string;
+  created_at: string;
+  updated_at: string;
+  state: string;
+  entidadFinanciera: string;
+  empresaIfis_id: string;
+  imagen: string;
+  empresaComercial_id: string;
+  whatsappPersona: string;
+  emailPersona: string;
+  telefono1: string;
+  nombreComercial: string;
+}
+
+export class Iva {
+  created_at: string;
+  descripcion: string;
+  id: string;
+  idPadre: string;
+  nombre: string;
+  tipo: string;
+  tipoVariable: string;
+  updated_at: string;
+  valor: number;
+}

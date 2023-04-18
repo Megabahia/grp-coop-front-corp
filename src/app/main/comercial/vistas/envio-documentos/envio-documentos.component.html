@@ -1,0 +1,520 @@
+<div>
+    <form class="add-new-user modal-content pt-0" [formGroup]="envioForm">
+        <div class="modal-header mb-1">
+            <h5 class="modal-title">
+                Envío de documentos
+            </h5>
+        </div>
+        <div class="modal-body flex-grow-1">
+            <div class="form-group">
+                <label>
+                    Solicitud de crédito
+                </label>
+                <a *ngIf="credito?.solicitudCredito" href="{{credito.solicitudCredito}}"> ver </a>
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input" id="solicitudCredito"
+                           formControlName="solicitudCredito"
+                           (change)="subirDoc( $event, 'solicitudCredito')"
+                           accept="image/jpeg,image/png,application/pdf"/>
+                    <label class="custom-file-label"
+                           for="solicitudCredito">{{envioForm.get('solicitudCredito').value}}</label>
+                    <div *ngIf="submitted && envioControlsForm.solicitudCredito.errors" class="invalid-feedback"
+                         style="display: block;">
+                        <div *ngIf="envioControlsForm.solicitudCredito.errors.required">Factura casa comercial es
+                            requerido
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>
+                    Evaluación crediticia
+                </label>
+                <a *ngIf="credito?.evaluacionCrediticia" href="{{credito.evaluacionCrediticia}}"> ver </a>
+
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input" id="evaluacionCrediticia"
+                           formControlName="evaluacionCrediticia"
+                           (change)="subirDoc( $event, 'evaluacionCrediticia')"
+                           accept="image/jpeg,image/png,application/pdf"/>
+                    <label class="custom-file-label"
+                           for="evaluacionCrediticia">{{envioForm.get('evaluacionCrediticia').value}}</label>
+                    <div *ngIf="submitted && envioControlsForm.evaluacionCrediticia.errors" class="invalid-feedback"
+                         style="display: block;">
+                        <div *ngIf="envioControlsForm.evaluacionCrediticia.errors.required">Evaluación crediticia es
+                            requerido
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>
+                    Documento Buró
+                </label>
+                <a *ngIf="credito?.buroCredito" href="{{credito.buroCredito}}"> ver </a>
+
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input" id="buro"
+                           formControlName="buro"
+                           (change)="subirDoc( $event, 'buro')"
+                           accept="image/jpeg,image/png,application/pdf"/>
+                    <label class="custom-file-label"
+                           for="buro">{{envioForm.get('buro').value}}</label>
+                    <div *ngIf="submitted && envioControlsForm.buro.errors" class="invalid-feedback"
+                         style="display: block;">
+                        <div *ngIf="envioControlsForm.buro.errors.required">Documento Buró es requerido
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>
+                    Copia de cédula
+                </label>
+                <a *ngIf="credito?.identificacion" href="{{credito.identificacion}}"> ver </a>
+
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input" id="identificacion"
+                           formControlName="identificacion"
+                           (change)="subirDoc( $event, 'identificacion')"
+                           accept="image/jpeg,image/png,application/pdf"/>
+                    <label class="custom-file-label"
+                           for="identificacion">{{envioForm.get('identificacion').value}}</label>
+                    <div *ngIf="submitted && envioControlsForm.identificacion.errors" class="invalid-feedback"
+                         style="display: block;">
+                        <div *ngIf="envioControlsForm.identificacion.errors.required">Identificación es requerido
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>
+                    Copia de RUC
+                </label>
+                <a *ngIf="credito?.ruc" href="{{credito.ruc}}"> ver </a>
+
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input" id="ruc"
+                           formControlName="ruc"
+                           (change)="subirDoc( $event, 'ruc')"
+                           accept="image/jpeg,image/png,application/pdf"/>
+                    <label class="custom-file-label"
+                           for="ruc">{{envioForm.get('ruc').value}}</label>
+                    <div *ngIf="submitted && envioControlsForm.ruc.errors" class="invalid-feedback"
+                         style="display: block;">
+                        <div *ngIf="envioControlsForm.ruc.errors.required">Ruc es requerido
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>
+                    Papeleta de votación
+                </label>
+                <a *ngIf="credito?.papeletaVotacion" href="{{credito.papeletaVotacion}}"> ver </a>
+
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input" id="papeletaVotacion"
+                           formControlName="papeletaVotacion"
+                           (change)="subirDoc( $event, 'papeletaVotacion')"
+                           accept="image/jpeg,image/png,application/pdf"/>
+                    <label class="custom-file-label"
+                           for="papeletaVotacion">{{envioForm.get('papeletaVotacion').value}}</label>
+                    <div *ngIf="submitted && envioControlsForm.papeletaVotacion.errors" class="invalid-feedback"
+                         style="display: block;">
+                        <div *ngIf="envioControlsForm.papeletaVotacion.errors.required">Papeleta de votacion es
+                            requerido
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="!soltero" class="form-group">
+                <label>
+                    Copia de cédula de cónyuge
+                </label>
+                <a *ngIf="credito?.identificacionConyuge" href="{{credito.identificacionConyuge}}"> ver </a>
+
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input" id="identificacionConyuge"
+                           formControlName="identificacionConyuge"
+                           (change)="subirDoc( $event, 'identificacionConyuge')"
+                           accept="image/jpeg,image/png,application/pdf"/>
+                    <label class="custom-file-label"
+                           for="identificacionConyuge">{{envioForm.get('identificacionConyuge').value}}</label>
+                    <div *ngIf="submitted && envioControlsForm.identificacionConyuge.errors" class="invalid-feedback"
+                         style="display: block;">
+                        <div *ngIf="envioControlsForm.identificacionConyuge.errors.required">Identificación cónyuge es
+                            requerido
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group" *ngIf="!soltero">
+                <label>
+                    Copia de papeleta de votacón de cónyuge
+                </label>
+                <a *ngIf="credito?.papeletaVotacionConyuge" href="{{credito.papeletaVotacionConyuge}}"> ver </a>
+
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input" id="papeletaVotacionConyuge"
+                           formControlName="papeletaVotacionConyuge"
+                           (change)="subirDoc( $event, 'papeletaVotacionConyuge')"
+                           accept="image/jpeg,image/png,application/pdf"/>
+                    <label class="custom-file-label"
+                           for="papeletaVotacionConyuge">{{envioForm.get('papeletaVotacionConyuge').value}}</label>
+                    <div *ngIf="submitted && envioControlsForm.papeletaVotacionConyuge.errors" class="invalid-feedback"
+                         style="display: block;">
+                        <div *ngIf="envioControlsForm.papeletaVotacionConyuge.errors.required">Papeleta de votación
+                            cónyuge
+                            es requerido
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>
+                    Foto tamaño carnet
+                </label>
+                <a *ngIf="credito?.fotoCarnet" href="{{credito.fotoCarnet}}"> ver </a>
+
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input" id="fotoCarnet"
+                           formControlName="fotoCarnet"
+                           (change)="subirDoc( $event, 'fotoCarnet')"
+                           accept="image/jpeg,image/png,application/pdf"/>
+                    <label class="custom-file-label"
+                           for="fotoCarnet">{{envioForm.get('fotoCarnet').value}}</label>
+                    <div *ngIf="submitted && envioControlsForm.fotoCarnet.errors" class="invalid-feedback"
+                         style="display: block;">
+                        <div *ngIf="envioControlsForm.fotoCarnet.errors.required">
+                            Foto tamaño carnet es requerido
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="negocioPropio" class="form-group">
+                <label>
+                    Copia de planilla de luz del Negocio
+                </label>
+                <a *ngIf="credito?.planillaLuzNegocio" href="{{credito.planillaLuzNegocio}}"> ver </a>
+
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input" id="planillaLuzNegocio"
+                           formControlName="planillaLuzNegocio"
+                           (change)="subirDoc( $event, 'planillaLuzNegocio')"
+                           accept="image/jpeg,image/png,application/pdf"/>
+                    <label class="custom-file-label"
+                           for="planillaLuzNegocio">{{envioForm.get('planillaLuzNegocio').value}}</label>
+                    <div *ngIf="submitted && envioControlsForm.planillaLuzNegocio.errors" class="invalid-feedback"
+                         style="display: block;">
+                        <div *ngIf="envioControlsForm.planillaLuzNegocio.errors.required">Planilla Luz del Negocio es
+                            requerido
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>
+                    Copia de planilla de luz del Domicilio
+                </label>
+                <a *ngIf="credito?.planillaLuzDomicilio" href="{{credito.planillaLuzDomicilio}}"> ver </a>
+
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input" id="planillaLuzDomicilio"
+                           formControlName="planillaLuzDomicilio"
+                           (change)="subirDoc( $event, 'planillaLuzDomicilio')"
+                           accept="image/jpeg,image/png,application/pdf"/>
+                    <label class="custom-file-label"
+                           for="planillaLuzDomicilio">{{envioForm.get('planillaLuzDomicilio').value}}</label>
+                    <div *ngIf="submitted && envioControlsForm.planillaLuzDomicilio.errors" class="invalid-feedback"
+                         style="display: block;">
+                        <div *ngIf="envioControlsForm.planillaLuzDomicilio.errors.required">Planilla de luz del
+                            Domicilio es requerido
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--            COSAS DEL NEGOCIO-->
+            <div *ngIf="negocioPropio" class="form-group">
+                <label>
+                    3 Facturas de compra de los últimos meses
+                </label>
+                <!--                <a *ngIf="credito?.planillaLuzDomicilio" href="{{credito.planillaLuzDomicilio}}"> ver </a>-->
+
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input" id="facturasCompra"
+                           formControlName="facturasCompra"
+                           (change)="subirDoc( $event, 'facturasCompra')"
+                           accept="image/jpeg,image/png,application/pdf"/>
+                    <label class="custom-file-label"
+                           for="facturasCompra">{{envioForm.get('facturasCompra').value}}</label>
+                    <div *ngIf="submitted && envioControlsForm.facturasCompra.errors" class="invalid-feedback"
+                         style="display: block;">
+                        <div *ngIf="envioControlsForm.facturasCompra.errors.required">Facturas de compras es requerido
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="negocioPropio" class="form-group">
+                <label>
+                    3 Facturas de venta de los últimos meses
+                </label>
+                <!--                <a *ngIf="credito?.planillaLuzDomicilio" href="{{credito.planillaLuzDomicilio}}"> ver </a>-->
+
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input" id="facturasVenta"
+                           formControlName="facturasVenta"
+                           (change)="subirDoc( $event, 'facturasVenta')"
+                           accept="image/jpeg,image/png,application/pdf"/>
+                    <label class="custom-file-label"
+                           for="facturasVenta">{{envioForm.get('facturasVenta').value}}</label>
+                    <div *ngIf="submitted && envioControlsForm.facturasVenta.errors" class="invalid-feedback"
+                         style="display: block;">
+                        <div *ngIf="envioControlsForm.facturasVenta.errors.required">Facturas de ventas es requerido
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label>
+                    Mecanizado del IESS
+                </label>
+                <a *ngIf="credito?.mecanizadoIees" href="{{credito.mecanizadoIees}}"> ver </a>
+
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input" id="mecanizadoIees"
+                           formControlName="mecanizadoIees"
+                           (change)="subirDoc( $event, 'mecanizadoIees')"
+                           accept="image/jpeg,image/png,application/pdf"/>
+                    <label class="custom-file-label"
+                           for="mecanizadoIees">{{envioForm.get('mecanizadoIees').value}}</label>
+                    <div *ngIf="submitted && envioControlsForm.mecanizadoIees.errors" class="invalid-feedback"
+                         style="display: block;">
+                        <div *ngIf="envioControlsForm.mecanizadoIees.errors.required">Mecanizado Iees es requerido
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>
+                    Copia de matrícula del vehículo
+                </label>
+                <a *ngIf="credito?.matriculaVehiculo" href="{{credito.matriculaVehiculo}}"> ver </a>
+
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input" id="matriculaVehiculo"
+                           formControlName="matriculaVehiculo"
+                           (change)="subirDoc( $event, 'matriculaVehiculo')"
+                           accept="image/jpeg,image/png,application/pdf"/>
+                    <label class="custom-file-label"
+                           for="matriculaVehiculo">{{envioForm.get('matriculaVehiculo').value}}</label>
+                    <div *ngIf="submitted && envioControlsForm.matriculaVehiculo.errors" class="invalid-feedback"
+                         style="display: block;">
+                        <div *ngIf="envioControlsForm.matriculaVehiculo.errors.required">Matrícula del vehículo es
+                            requerido
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>
+                    Copia de pago de impuesto predial
+                </label>
+                <a *ngIf="credito?.impuestoPredial" href="{{credito?.impuestoPredial}}"> ver </a>
+
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input" id="impuestoPredial"
+                           formControlName="impuestoPredial"
+                           (change)="subirDoc( $event, 'impuestoPredial')"
+                           accept="image/jpeg,image/png,application/pdf"/>
+                    <label class="custom-file-label"
+                           for="impuestoPredial">{{envioForm.get('impuestoPredial').value}}</label>
+                    <div *ngIf="submitted && envioControlsForm.impuestoPredial.errors" class="invalid-feedback"
+                         style="display: block;">
+                        <div *ngIf="envioControlsForm.impuestoPredial.errors.required">Copia impuesto predial es
+                            requerido
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>
+                    Autorización de información
+                </label>
+                <!--                <a *ngIf="credito?.impuestoPredial" href="{{credito?.impuestoPredial}}"> ver </a>-->
+
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input" id="autorizacionInformacion"
+                           formControlName="autorizacionInformacion"
+                           (change)="subirDoc( $event, 'autorizacionInformacion')"
+                           accept="image/jpeg,image/png,application/pdf"/>
+                    <label class="custom-file-label"
+                           for="autorizacionInformacion">{{envioForm.get('autorizacionInformacion').value}}</label>
+                    <div *ngIf="submitted && envioControlsForm.autorizacionInformacion.errors" class="invalid-feedback"
+                         style="display: block;">
+                        <div *ngIf="envioControlsForm.autorizacionInformacion.errors.required">Autorización es requerido
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>
+                    Ficha cliente creado
+                </label>
+                <!--                <a *ngIf="credito?.impuestoPredial" href="{{credito?.impuestoPredial}}"> ver </a>-->
+
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input" id="fichaCliente"
+                           formControlName="fichaCliente"
+                           (change)="subirDoc( $event, 'fichaCliente')"
+                           accept="image/jpeg,image/png,application/pdf"/>
+                    <label class="custom-file-label"
+                           for="fichaCliente">{{envioForm.get('fichaCliente').value}}</label>
+                    <div *ngIf="submitted && envioControlsForm.fichaCliente.errors" class="invalid-feedback"
+                         style="display: block;">
+                        <div *ngIf="envioControlsForm.fichaCliente.errors.required"> Ficha cliente creado es requerido
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>
+                    Convenios cuenta creada
+                </label>
+                <!--                <a *ngIf="credito?.impuestoPredial" href="{{credito?.impuestoPredial}}"> ver </a>-->
+
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input" id="conveniosCuenta"
+                           formControlName="conveniosCuenta"
+                           (change)="subirDoc( $event, 'conveniosCuenta')"
+                           accept="image/jpeg,image/png,application/pdf"/>
+                    <label class="custom-file-label"
+                           for="conveniosCuenta">{{envioForm.get('conveniosCuenta').value}}</label>
+                    <div *ngIf="submitted && envioControlsForm.conveniosCuenta.errors" class="invalid-feedback"
+                         style="display: block;">
+                        <div *ngIf="envioControlsForm.conveniosCuenta.errors.required"> Convenios cuenta es requerido
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>
+                    Pagare
+                </label>
+                <a *ngIf="credito?.pagare" href="{{credito?.pagare}}"> ver </a>
+
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input" id="pagare"
+                           formControlName="pagare"
+                           (change)="subirDoc( $event, 'pagare')"
+                           accept="image/jpeg,image/png,application/pdf"/>
+                    <label class="custom-file-label"
+                           for="pagare">{{envioForm.get('pagare').value}}</label>
+                    <div *ngIf="submitted && envioControlsForm.pagare.errors" class="invalid-feedback"
+                         style="display: block;">
+                        <div *ngIf="envioControlsForm.pagare.errors.required"> Pagare es requerido
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>
+                    Tabla de amortización
+                </label>
+                <a *ngIf="credito?.pagatablaAmortizacionre" href="{{credito?.tablaAmortizacion}}"> ver </a>
+
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input" id="tablaAmortizacion"
+                           formControlName="tablaAmortizacion"
+                           (change)="subirDoc( $event, 'tablaAmortizacion')"
+                           accept="image/jpeg,image/png,application/pdf"/>
+                    <label class="custom-file-label"
+                           for="tablaAmortizacion">{{envioForm.get('tablaAmortizacion').value}}</label>
+                    <div *ngIf="submitted && envioControlsForm.tablaAmortizacion.errors" class="invalid-feedback"
+                         style="display: block;">
+                        <div *ngIf="envioControlsForm.tablaAmortizacion.errors.required"> Tabla de amortización es
+                            requerido
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>
+                    Seguro de desgravamen
+                </label>
+                <!--                <a *ngIf="credito?.pagatablaAmortizacionre" href="{{credito?.tablaAmortizacion}}"> ver </a>-->
+
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input" id="seguroDesgravamen"
+                           formControlName="seguroDesgravamen"
+                           (change)="subirDoc( $event, 'seguroDesgravamen')"
+                           accept="image/jpeg,image/png,application/pdf"/>
+                    <label class="custom-file-label"
+                           for="seguroDesgravamen">{{envioForm.get('seguroDesgravamen').value}}</label>
+                    <div *ngIf="submitted && envioControlsForm.seguroDesgravamen.errors" class="invalid-feedback"
+                         style="display: block;">
+                        <div *ngIf="envioControlsForm.seguroDesgravamen.errors.required"> Seguro de desgravamen es
+                            requerido
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>
+                    Gastos Administrativos
+                </label>
+                <a *ngIf="credito?.gastosAdministracion" href="{{credito?.gastosAdministracion}}"> ver </a>
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input" id="gastosAdministracion"
+                           formControlName="gastosAdministracion"
+                           (change)="subirDoc( $event, 'gastosAdministracion')"
+                           accept="image/jpeg,image/png,application/pdf"/>
+                    <label class="custom-file-label"
+                           for="gastosAdministracion">{{envioForm.get('gastosAdministracion').value}}</label>
+                    <div *ngIf="submitted && envioControlsForm.gastosAdministracion.errors" class="invalid-feedback"
+                         style="display: block;">
+                        <div *ngIf="envioControlsForm.gastosAdministracion.errors.required"> Gastos Administrativos es
+                            requerido
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center">
+            <button class="btn btn-primary m-1" (click)="enviar(modalSLC)"
+                    [disabled]="enviarForm"
+            >
+                Enviar
+            </button>
+            <!--        <button class="btn btn-primary mr-1"-->
+            <!--        >-->
+            <!--            CANCELAR-->
+            <!--        </button>-->
+        </div>
+
+    </form>
+</div>
+<ng-template #modalSLC let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="myModalLabel1">Aviso:</h4>
+        <button type="button" class="close" (click)="modal.dismiss('Cross click')" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div style="padding: 20px 20px 20px 20px;">
+        <div class="content-header text-center">
+            <h5 class="mb-0">{{mensaje}}</h5>
+        </div>
+    </div>
+
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="modal.close('Accept click')" rippleEffect>
+            Cerrar
+        </button>
+    </div>
+</ng-template>
+

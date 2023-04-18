@@ -1,0 +1,146 @@
+<div class="m-2">
+    <form class="add-new-user modal-content pt-0" [formGroup]="envioDocumentosForm">
+        <div class="modal-header mb-1">
+            <h5 class="modal-title ">
+                ENVÍO DE DOCUMENTOS FÍSICOS
+            </h5>
+        </div>
+        <div class="modal-body flex-grow-1">
+            <div class="form-group">
+                <div class="col-3 custom-file text-right">
+                    <label>
+                        Número de guía de envío:
+                    </label>
+                </div>
+                <div class="col-8 custom-file text-left">
+                    <div class="custom-file">
+                        <input type="text"
+                               class="form-control"
+                               formControlName="numeroGuia"
+                        >
+
+                        <div *ngIf="submitted && facturacionControlsForm.numeroGuia.errors" class="invalid-feedback"
+                             style="display: block;">
+                            <div *ngIf="facturacionControlsForm.numeroGuia.errors.required">Número de guía de envío es requerido
+                            </div>
+                            <div *ngIf="facturacionControlsForm.numeroGuia.errors.pattern">Ingrese solo numeros es requerido
+                            </div>
+                            <div *ngIf="facturacionControlsForm.numeroGuia.errors.minlength">Ingrese minimo 10 numeros
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-3 custom-file text-right">
+                    <label>
+                        Fecha de envío:
+                    </label>
+                </div>
+                <div class="col-8 custom-file text-left">
+                    <div class="custom-file">
+<!--                        <input type="text"-->
+<!--                               class="form-control"-->
+<!--                               formControlName="fecha"-->
+<!--                        >-->
+                        <ng2-flatpickr [setDate]="fecha" formControlName="fecha" [config]="startDateOptions"></ng2-flatpickr>
+                        <div *ngIf="submitted && facturacionControlsForm.fecha.errors" class="invalid-feedback"
+                             style="display: block;">
+                            <div *ngIf="facturacionControlsForm.fecha.errors.required">Fecha de envío es requerido
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-3 custom-file text-right">
+
+                    <label>
+                        Courier responsable:
+                    </label>
+                </div>
+                <div class="col-8 custom-file text-left">
+
+                    <div class="custom-file">
+                        <input type="text"
+                               class="form-control"
+                               formControlName="courier"
+                        >
+
+                        <div *ngIf="submitted && facturacionControlsForm.courier.errors" class="invalid-feedback"
+                             style="display: block;">
+                            <div *ngIf="facturacionControlsForm.courier.errors.required">
+                                Courier responsable es requerido
+                            </div>
+                            <div *ngIf="facturacionControlsForm.courier.errors.email">
+                                Ingrese un correo courier responsable
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-3 custom-file text-right">
+                    <label>
+                        Dirección de entrega:
+                    </label>
+                </div>
+                <div class="col-8 custom-file text-left">
+
+                    <div class="custom-file">
+                        <input type="text"
+                               class="form-control"
+                               formControlName="direccionEntrega"
+                        >
+
+                        <div *ngIf="submitted && facturacionControlsForm.direccionEntrega.errors"
+                             class="invalid-feedback"
+                             style="display: block;">
+                            <div *ngIf="facturacionControlsForm.direccionEntrega.errors.required">Dirección de entrega
+                                es
+                                requerido
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-3 custom-file text-right">
+                    <label>
+                        Cooperativa asignada:
+                    </label>
+                </div>
+                <div class="col-8 custom-file text-left">
+
+                    <div class="custom-file">
+                        <input type="text"
+                               disabled="true"
+                               class="form-control"
+                               formControlName="cooperativaAsignada"
+                        >
+
+                        <div *ngIf="submitted && facturacionControlsForm.cooperativaAsignada.errors"
+                             class="invalid-feedback"
+                             style="display: block;">
+                            <div *ngIf="facturacionControlsForm.cooperativaAsignada.errors.required">Cooperativa
+                                asignada es
+                                requerido
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-2 text-center">
+                <button class="btn btn-primary mr-1" (click)="guardar()"
+                >
+                    SIGUIENTE
+                </button>
+                <button class="btn btn-primary mr-1"
+                >
+                    CANCELAR
+                </button>
+            </div>
+        </div>
+    </form>
+</div>

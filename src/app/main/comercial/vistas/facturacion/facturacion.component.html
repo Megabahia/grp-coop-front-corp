@@ -1,0 +1,256 @@
+<div class="m-2">
+    <form class="add-new-user modal-content pt-0" [formGroup]="factruacionForm">
+        <div class="modal-header mb-1">
+            <h5 class="modal-title">
+                FACTURACIÓN
+            </h5>
+        </div>
+        <div class="modal-body flex-grow-1">
+            <div class="form-group">
+                <label>
+                    Nombres del cliente:
+                </label>
+                <div class="custom-file">
+                    <input type="text"
+                           class="form-control"
+                           formControlName="nombre"
+                    >
+
+                    <div *ngIf="submitted && facturacionControlsForm.nombre.errors" class="invalid-feedback"
+                         style="display: block;">
+                        <div *ngIf="facturacionControlsForm.nombre.errors.required">Cédula es requerido
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--            <div class="form-group">-->
+            <!--                <label>-->
+            <!--                    Apellidos del cliente:-->
+            <!--                </label>-->
+
+            <!--                <div class="custom-file">-->
+            <!--                    <input type="text"-->
+            <!--                           class="form-control"-->
+            <!--                           formControlName="apellido"-->
+            <!--                    >-->
+            <!--                    <div *ngIf="submitted && facturacionControlsForm.apellido.errors" class="invalid-feedback"-->
+            <!--                         style="display: block;">-->
+            <!--                        <div *ngIf="facturacionControlsForm.apellido.errors.required"> Apellido es requerido</div>-->
+            <!--                    </div>-->
+            <!--                </div>-->
+            <!--            </div>-->
+            <div class="form-group">
+                <label>
+                    Número de cédula:
+                </label>
+
+                <div class="custom-file">
+                    <input type="text"
+                           class="form-control"
+                           formControlName="identificacion"
+                    >
+                    <div *ngIf="submitted && facturacionControlsForm.identificacion.errors"
+                         class="invalid-feedback"
+                         style="display: block;">
+                        <div *ngIf="facturacionControlsForm.identificacion.errors.required">Identificación es
+                            requerido
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>
+                    Número de celular:
+                </label>
+
+                <div class="custom-file">
+                    <input type="text"
+                           class="form-control"
+                           formControlName="celular"
+                    >
+                    <div *ngIf="submitted && facturacionControlsForm.celular.errors" class="invalid-feedback"
+                         style="display: block;">
+                        <div *ngIf="facturacionControlsForm.celular.errors.required">Número de celular es
+                            requerido
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>
+                    Dirección:
+                </label>
+
+                <div class="custom-file">
+                    <input type="text"
+                           class="form-control"
+                           formControlName="direccion"
+                    >
+                    <div *ngIf="submitted && facturacionControlsForm.direccion.errors" class="invalid-feedback"
+                         style="display: block;">
+                        <div *ngIf="facturacionControlsForm.direccion.errors.required">Dirección es
+                            requerido
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>
+                    Correo electrónico
+                </label>
+
+                <div class="custom-file">
+                    <input type="text"
+                           class="form-control"
+                           formControlName="correo"
+                    >
+                    <div *ngIf="submitted && facturacionControlsForm.correo.errors" class="invalid-feedback"
+                         style="display: block;">
+                        <div *ngIf="facturacionControlsForm.correo.errors.required">Correo electrónico es
+                            requerido
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>
+                    Descripción del producto
+                </label>
+
+                <div class="custom-file">
+                    <input type="text"
+                           class="form-control"
+                           formControlName="descripcion"
+                    >
+                    <div *ngIf="submitted && facturacionControlsForm.descripcion.errors" class="invalid-feedback"
+                         style="display: block;">
+                        <div *ngIf="facturacionControlsForm.descripcion.errors.required">Descripción es requerido</div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>
+                    Cantidad
+                </label>
+
+                <div class="custom-file">
+                    <input type="text"
+                           class="form-control"
+                           formControlName="cantidad"
+                    >
+                    <div *ngIf="submitted && facturacionControlsForm.cantidad.errors" class="invalid-feedback"
+                         style="display: block;">
+                        <div *ngIf="facturacionControlsForm.cantidad.errors.required">Cantidad es
+                            requerido
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>
+                    Valor total de la compra
+                </label>
+
+                <div class="custom-file">
+                    <input type="text"
+                           class="form-control"
+                           formControlName="valorTotal"
+                           (change)="comprobarMonto()"
+                    >
+                    <div *ngIf="submitted && facturacionControlsForm.valorTotal.errors" class="invalid-feedback"
+                         style="display: block;">
+                        <div *ngIf="facturacionControlsForm.valorTotal.errors.required">Valor total a pagar es
+                            requerido
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>
+                    Factura casa comercial
+                </label>
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input" id="facturaComercial"
+                           formControlName="facturaComercial"
+                           (change)="subirDoc( $event, 'facturaFisica')"
+                           accept="image/jpeg,image/png,application/pdf"/>
+                    <label class="custom-file-label"
+                           for="facturaComercial">{{factruacionForm.get('facturaComercial').value}}</label>
+                    <div *ngIf="submitted && facturacionControlsForm.facturaComercial.errors" class="invalid-feedback"
+                         style="display: block;">
+                        <div *ngIf="facturacionControlsForm.facturaComercial.errors.required">Factura casa comercial es
+                            requerido
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div *ngIf="mostrarCampos " class="form-group">
+                <label for="metodoPago">
+                    Metodo pago
+                </label>
+                <select class="form-control" id="metodoPago" name="metodoPago" formControlName="metodoPago"
+                        (change)="selectedMethodePay($event.target.value)">
+                    <option value="">-Seleccione-</option>
+                    <option value="Efectivo">Efectivo</option>
+                    <option value="Transferencia">Transferencia</option>
+                    <option value="Targeta">Tarjeta</option>
+                </select>
+                <div *ngIf="submitted && facturacionControlsForm.metodoPago.errors" class="invalid-feedback"
+                     style="display: block;">
+                    <div *ngIf="facturacionControlsForm.metodoPago.errors.required">Metodo de pago requerido</div>
+                </div>
+            </div>
+
+            <div *ngIf="mostrarCampos && valuePay" class="form-group">
+                <label for="pago">
+                    Valor pago
+                </label>
+
+                <div class="custom-file">
+                    <input type="number"
+                           id="pago"
+                           class="form-control"
+                           formControlName="pago"
+                    >
+                    <div *ngIf="submitted && facturacionControlsForm.pago.errors" class="invalid-feedback"
+                         style="display: block;">
+                        <div *ngIf="facturacionControlsForm.pago.errors.required">Valor a pagar es requerido</div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="mt-2 text-center">
+                <button class="btn btn-primary mr-1" (click)="siguiente(modalSLC)"
+                >
+                    SIGUIENTE
+                </button>
+                <button class="btn btn-primary mr-1"
+                >
+                    CANCELAR
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+<ng-template #modalSLC let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="myModalLabel1">Aviso:</h4>
+        <button type="button" class="close" (click)="modal.dismiss('Cross click')" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div style="padding: 20px 20px 20px 20px;">
+        <div class="content-header text-center">
+            <h5 class="mb-0">{{mensaje}}</h5>
+        </div>
+    </div>
+
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="modal.close('Accept click')" rippleEffect>
+            Cerrar
+        </button>
+    </div>
+</ng-template>

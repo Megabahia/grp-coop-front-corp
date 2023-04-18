@@ -1,0 +1,700 @@
+<div class="content-wrapper">
+  <div class="content-header row">
+    <div class="col-12 mb-2">
+      <div class="row breadcrumbs-top">
+        <div class="col-12">
+          <h2 class="content-header-title float-left mb-0">Notas de pedido</h2>
+          <div class="breadcrumb-wrapper">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a class="text-primary" href="index.html">Inicio</a>
+              </li>
+              <li class="breadcrumb-item"><a class="text-primary" href="mis-premios.html">Notas de
+                  pedido</a>
+              </li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="content-body">
+    <!-- users list start -->
+    <div class="card">
+      <h5 class="card-header">Filtros de búsqueda</h5>
+      <div class="card-body">
+        <div class="row">
+
+          <div class="col-md-4">
+            <input type="text" class="form-control form-control-sm" placeholder="Cédula" [(ngModel)]="cedula">
+          </div>
+          <div class="col-md-4">
+            <input type="text" class="form-control form-control-sm" placeholder="Nombre" [(ngModel)]="nombresCompleto">
+          </div>
+          <div class="col-md-2">
+            <a class="btn btn-primary" (click)="obtenerListaNotasPedido()">
+              <i data-feather='search'></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- users list ends -->
+    <div class="card">
+
+      <div class="row m-75">
+        <div class="col-lg-12 col-xl-6">
+          <label>Mostrar</label>
+          <select class="form-control-sm" [(ngModel)]="page_size" (change)="obtenerListaNotasPedido()">
+            <option value="10">10</option>
+            <option value="25">25</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+          </select>
+
+        </div>
+        <!-- <div class="col-lg-12 col-xl-6 text-right">
+          <button class="btn btn-primary waves-effect waves-float waves-light" tabindex="0"
+            aria-controls="DataTables_Table_0" type="button" (click)="toggleSidebar('factura','')">
+            Crear nuevo
+          </button>
+        </div> -->
+      </div>
+
+      <div class="card-datatable table-responsive pt-0">
+        <table class="user-list-table table table-striped">
+          <thead class="thead-light">
+            <tr>
+              <th>Fecha</th>
+              <th>Nombre Completo</th>
+              <th>Concepto</th>
+              <th>Detalle de productos</th>
+              <th>Valor $</th>
+              <th>Estado</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let nota of listaNotasPedido">
+              <td>{{nota.fecha}}</td>
+              <td>{{nota.razonSocial}}</td>
+              <td>{{nota.concepto}}</td>
+              <td>{{nota.detalles}}</td>
+              <td>{{nota.total}}</td>
+              <td>{{nota.estado}}</td>
+              <td>
+                <a href="javascript:void(0)" (click)="toggleSidebar('factura',nota.id)" class="avatar bg-secondary"
+                  data-target="#factura" data-toggle="modal">
+                  <div class="avatar-content" data-toggle="tooltip" data-placement="bottom" title=""
+                    data-original-title="Editar">
+                    <i data-feather='edit-2'></i>
+                  </div>
+                </a>
+                <a *ngIf="nota.estado !== 'Venta a Credito Concretado'" href="javascript:void(0)" (click)="confirDatos(nota)" class="avatar bg-info "
+                  data-target="#enviar" data-toggle="modal">
+                  <div class="avatar-content" data-toggle="tooltip" data-placement="bottom" title=""
+                    data-original-title="Enviar a sistema de ofertas">
+                    <i data-feather='send'></i>
+                  </div>
+                </a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <ngb-pagination #paginator [collectionSize]="collectionSize" [(page)]="page" [(pageSize)]="page_size"
+        [maxSize]="5" [ellipses]="false" [boundaryLinks]="true"></ngb-pagination>
+    </div>
+  </div>
+</div>
+<core-sidebar class="modal modal-slide-in sidebar-todo-modal fade" name="factura" overlayClass="modal-backdrop">
+  <div class="slideout-content">
+    <!-- Modal to add new user starts-->
+    <div class="modalsd modal-slide-in sdfade new-user-modal" id="factura">
+      <div class="modal-dialog modal-slide-xl">
+        <div class="modal-content pt-0">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+            (click)="toggleSidebar('factura','')">×</button>
+          <div class="modal-header mb-1">
+            <h5 class="modal-title" id="exampleModalLabel">Nueva solicitud</h5>
+          </div>
+          <div class="modal-body">
+            <form class="auth-login-form mt-2" [formGroup]="notaPedidoForm">
+              <div class="card invoice-preview-card">
+                <!-- Header starts -->
+                <div class="card-body invoice-padding pb-0">
+                  <div class="d-flex justify-content-between flex-md-row flex-column invoice-spacing mt-0">
+                    <div>
+                      <div class="logo-wrapper">
+                        <h3 class="text-primary invoice-logo">LOGO</h3>
+                      </div>
+                      <p class="card-text mb-25">Oficina 149, conoco pichincha</p>
+                      <p class="card-text mb-25">Quito, Ecuador</p>
+                      <p class="card-text mb-0">(876) 543 2198</p>
+                    </div>
+                    <div class="invoice-number-date mt-md-0 mt-2">
+                      <div class="d-flex align-items-center justify-content-md-end mb-1">
+                        <h4 class="invoice-title">Factura</h4>
+                        <div class="input-group input-group-merge invoice-edit-input-group">
+                          <div class="input-group-prepend">
+                            <div class="input-group-text">
+                              <i data-feather="hash"></i>
+                            </div>
+                          </div>
+                          <input type="text" class="form-control invoice-edit-input" placeholder="53634" disabled />
+                        </div>
+                      </div>
+                      <div class="d-flex align-items-center mb-1">
+                        <span class="title">Fecha:</span>
+                        <input type="text" class="form-control invoice-edit-input date-picker"
+                          [(ngModel)]="notaPedido.fecha" disabled [ngModelOptions]="{standalone: true}" />
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+                <!-- Header ends -->
+
+                <hr class="invoice-spacing" />
+
+                <!-- Address and Contact starts -->
+                <div class="card-body invoice-padding pt-0">
+                  <h4 class="invoice-title mb-2">Datos para la factura</h4>
+                  <div class="row">
+                    <div class="col-4">
+                      <label>Tipo de identificación</label>
+                      <select class="form-control" name="tipoIdentificacion" formControlName="tipoIdentificacion"
+                        [(ngModel)]="notaPedido.tipoIdentificacion">
+                        <option value="">- Seleccione -</option>
+                        <option *ngFor="let tipoIedntificacionOp of tipoIdentificacionOpciones"
+                          value="{{tipoIedntificacionOp.valor}}">{{tipoIedntificacionOp.nombre}}</option>
+
+                      </select>
+                      <div *ngIf="submittedNotaPedidoForm && tForm.tipoIdentificacion.errors" class="invalid-feedback"
+                        style="display: block;">
+                        <div *ngIf="tForm.tipoIdentificacion.errors.required">Tipo de identificación requerido
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-4">
+                      <label>Identificación</label>
+                      <input class="form-control" type="text" name="identificacion" formControlName="identificacion"
+                        [(ngModel)]="notaPedido.identificacion">
+                      <div *ngIf="submittedNotaPedidoForm && tForm.identificacion.errors" class="invalid-feedback"
+                        style="display: block;">
+                        <div *ngIf="tForm.identificacion.errors.required">Identificación requerido
+                        </div>
+                        <div *ngIf="tForm.identificacion.errors.pattern">Solo números
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-4">
+                      <label>Razón social</label>
+                      <input class="form-control" type="text" name="razonSocial" formControlName="razonSocial"
+                        [(ngModel)]="notaPedido.razonSocial">
+                      <div *ngIf="submittedNotaPedidoForm && tForm.razonSocial.errors" class="invalid-feedback"
+                        style="display: block;">
+                        <div *ngIf="tForm.razonSocial.errors.required">Nombres completos requeridos
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-4">
+                      <label>Dirección</label>
+                      <input class="form-control" type="text" name="direccion" formControlName="direccion"
+                        [(ngModel)]="notaPedido.direccion">
+                      <div *ngIf="submittedNotaPedidoForm && tForm.direccion.errors" class="invalid-feedback"
+                        style="display: block;">
+                        <div *ngIf="tForm.direccion.errors.required">Dirección requerida
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-4">
+                      <label>Teléfono</label>
+                      <input class="form-control" type="text" name="telefono" formControlName="telefono"
+                        [(ngModel)]="notaPedido.telefono">
+                      <div *ngIf="submittedNotaPedidoForm && tForm.telefono.errors" class="invalid-feedback"
+                        style="display: block;">
+                        <div *ngIf="tForm.telefono.errors.required">Teléfono requerido
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-4">
+                      <label>Correo</label>
+                      <input class="form-control" type="text" name="correo" formControlName="correo"
+                        [(ngModel)]="notaPedido.correo">
+                      <div *ngIf="submittedNotaPedidoForm && tForm.correo.errors" class="invalid-feedback"
+                        style="display: block;">
+                        <div *ngIf="tForm.correo.errors.required">Correo requerido
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-8"></div>
+                    <div class="col-2">
+                      <label>Buscar:</label>
+                      <button class="form-control btn btn-primary" (click)="obtenerCliente()">
+                        <i data-feather='search' class="edit-user"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <!-- Address and Contact ends -->
+                <hr class="invoice-spacing" />
+                <!-- Product Details starts -->
+                <div class="card-body invoice-padding invoice-product-details">
+                  <div class="source-item" formArrayName="detalles">
+                    <div data-repeater-list="group-a">
+                      <div class="repeater-wrapper" data-repeater-item *ngFor="let detalle of detalles; let i = index"
+                        [formGroupName]="i" @heightIn>
+                        <div class="card-body invoice-padding">
+                          <div class="row">
+                            <div class="col-12 pt-2 d-flex product-details-border position-relative pr-0">
+                              <div class="row w-100 pr-lg-0 pr-1 py-2">
+                                <div class="col-md-5 mb-lg-0 mb-2 mt-lg-0 mt-2">
+                                  <p class="card-text col-title">Producto</p>
+                                  <input class="form-control" type="text" name="articulo" formControlName="articulo"
+                                    [(ngModel)]="detalle.articulo">
+                                  <div
+                                    *ngIf="submittedNotaPedidoForm && tForm.detalles.controls[i].controls.articulo.errors"
+                                    class="invalid-feedback" style="display: block;">
+                                    <div *ngIf="tForm.detalles.controls[i].controls.articulo.errors.required">Requerido
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div class="col-md-2 mb-lg-0 mb-2 mt-lg-0 mt-2">
+                                  <p class="card-text col-title">Valor Unitario</p>
+                                  <input class="form-control" type="text" name="valorUnitario"
+                                    formControlName="valorUnitario" [(ngModel)]="detalle.valorUnitario"
+                                    (change)="calcularSubtotal()">
+                                  <div
+                                    *ngIf="submittedNotaPedidoForm && tForm.detalles.controls[i].controls.valorUnitario.errors"
+                                    class="invalid-feedback" style="display: block;">
+                                    <div *ngIf="tForm.detalles.controls[i].controls.valorUnitario.errors.required">
+                                      Requerido
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="col-md-2 my-lg-0 my-2">
+                                  <p class="card-text col-title">Cantidad</p>
+                                  <input type="number" class="form-control" value="0" placeholder="0" name="cantidad"
+                                    formControlName="cantidad" [(ngModel)]="detalle.cantidad"
+                                    (change)="calcularSubtotal()" />
+                                  <div
+                                    *ngIf="submittedNotaPedidoForm && tForm.detalles.controls[i].controls.cantidad.errors"
+                                    class="invalid-feedback" style="display: block;">
+                                    <div *ngIf="tForm.detalles.controls[i].controls.cantidad.errors.required">Requerido
+                                    </div>
+                                    <div *ngIf="tForm.detalles.controls[i].controls.cantidad.errors.pattern">Solo
+                                      números
+                                    </div>
+                                    <div *ngIf="tForm.detalles.controls[i].controls.cantidad.errors.min">Debe ser mayor
+                                      a 0
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div class="col-md-3 my-lg-0 my-2">
+                                  <p class="card-text col-title"><b>Precio:</b></p>
+                                  <h5><b>${{detalle.precio}}</b></h5>
+                                </div>
+                              </div>
+                              <div
+                                class="d-flex flex-column align-items-center justify-content-between border-left invoice-product-actions py-50 px-25">
+                                <button (click)="deleteItem(i)" class="btn p-0">
+                                  <i data-feather="x" [size]="18" class="cursor-pointer"></i>
+                                </button>
+
+                              </div>
+                            </div>
+                          </div>
+                          <div class=" row">
+                            <div class="col-12 pt-2">
+                              <div class="row w-100 pr-lg-0 pr-1 py-2">
+                                <div class="col-md-5 mb-lg-0 mb-2 mt-lg-0">
+                                  <p class="card-text col-title">Información Adicional</p>
+                                  <textarea class="form-control" rows="1" name="informacionAdicional"
+                                    formControlName="informacionAdicional" [(ngModel)]="detalle.informacionAdicional"
+                                    placeholder="Información adicional"></textarea>
+                                  <div
+                                    *ngIf="submittedNotaPedidoForm && tForm.detalles.controls[i].controls.informacionAdicional.errors"
+                                    class="invalid-feedback" style="display: block;">
+                                    <div
+                                      *ngIf="tForm.detalles.controls[i].controls.informacionAdicional.errors.required">
+                                      Requerido
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="col-md-2 my-lg-0 my-2">
+                                  <p class="card-text col-title">% descuento</p>
+                                  <input type="number" class="form-control" value="0" placeholder="0" name="descuento"
+                                    formControlName="descuento" [(ngModel)]="detalle.descuento"
+                                    (change)="calcularSubtotal()" [ngModelOptions]="{standalone: true}" />
+                                  <div
+                                    *ngIf="submittedNotaPedidoForm && tForm.detalles.controls[i].controls.descuento.errors"
+                                    class="invalid-feedback" style="display: block;">
+                                    <div *ngIf="tForm.detalles.controls[i].controls.descuento.errors.required">Requerido
+                                    </div>
+                                    <div *ngIf="tForm.detalles.controls[i].controls.descuento.errors.pattern">Solo
+                                      números decimales
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="col-md-2 my-lg-0 my-2">
+                                  <p class="card-text col-title">$ descuento:</p>
+                                  <input type="number" class="form-control" value="0" placeholder="0"
+                                    name="valorDescuento" formControlName="valorDescuento"
+                                    [(ngModel)]="detalle.valorDescuento" disabled />
+                                  <div
+                                    *ngIf="submittedNotaPedidoForm && tForm.detalles.controls[i].controls.valorDescuento.errors"
+                                    class="invalid-feedback" style="display: block;">
+                                    <div *ngIf="tForm.detalles.controls[i].controls.valorDescuento.errors.required">
+                                      Requerido
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+
+                            </div>
+
+                          </div>
+                        </div>
+
+                      </div>
+                    </div>
+                    <div class="row mt-1">
+                      <div class="col-12 px-0">
+                        <button type="button" class="btn btn-primary btn-sm btn-add-new" (click)="addItem()"
+                          rippleEffect>
+                          <i data-feather="plus" class="mr-25"></i>
+                          <span class="align-middle">Añadir producto</span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- Product Details ends -->
+                <hr class="invoice-spacing" />
+                <!-- Invoice Total starts -->
+                <div class="card-body invoice-padding">
+                  <div class="row invoice-sales-total-wrapper">
+                    <div class="col-md-6 order-md-1 order-2 mt-md-0 mt-3">
+                      <div class="d-flex align-items-center mb-1">
+                        <label for="salesperson" class="form-label">Persona de ventas:</label>
+                        <input type="text" class="form-control ml-50" id="salesperson" placeholder="Nombre vendedor"
+                          name="nombreVendedor" formControlName="nombreVendedor" [(ngModel)]="notaPedido.nombreVendedor"
+                          disabled />
+                      </div>
+                    </div>
+                    <div class="col-md-6 d-flex justify-content-end order-md-2 order-1">
+                      <div class="invoice-total-wrapper">
+                        <div class="invoice-total-item">
+                          <p class="invoice-total-title">Subtotal:</p>
+                          <p class="invoice-total-amount">${{notaPedido.subTotal}}</p>
+                        </div>
+                        <div class="invoice-total-item">
+                          <p class="invoice-total-title">Descuento:</p>
+                          <p class="invoice-total-amount">${{notaPedido.descuento}}</p>
+                        </div>
+                        <hr class="my-50" />
+                        <div class="invoice-total-item">
+                          <p class="invoice-total-title">Subtotal (con descuento):</p>
+                          <p class="invoice-total-amount">${{notaPedido.subTotal-notaPedido.descuento}}</p>
+                        </div>
+
+                        <div class="invoice-total-item">
+                          <p class="invoice-total-title">{{iva.descripcion}}:</p>
+                          <p class="invoice-total-amount">${{notaPedido.iva}}</p>
+                        </div>
+                        <hr class="my-50" />
+                        <div class="invoice-total-item">
+                          <p class="invoice-total-title">Total:</p>
+                          <p class="invoice-total-amount">${{notaPedido.total}}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- Invoice Total ends -->
+
+                <hr class="invoice-spacing mt-0" />
+
+                <div class="row p-2">
+                  <div class="col-12">
+                    <button class="btn btn-primary mr-1 waves-effect waves-float waves-light" type="button"
+                      data-toggle="modal" data-target="#enviar" data-dismiss="modal" aria-label="Close"
+                      (click)="guardarNotaPedido()">Guardar y enviar
+                      factura</button>
+
+                    <button type="reset" class="btn btn-outline-secondary waves-effect" data-dismiss="modal"
+                      aria-label="Close" (click)="toggleSidebar('factura','')">Cancelar</button>
+                  </div>
+                </div>
+
+
+              </div>
+            </form>
+          </div>
+        </div>
+        <!-- <form class="add-new-user modal-content pt-0" [formGroup]="compraSuperMonedasForm">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="toggleSidebar('guardarCompraSupermonedas',0)">
+                        ×
+                    </button>
+                    <div class="modal-header mb-1">
+                        <h5 class="modal-title" id="exampleModalLabel">Comprar con super monedas</h5>
+                    </div>
+                    <div class="modal-body flex-grow-1">
+
+                        <div class="form-group">
+                            <label>Nombre de la tienda</label>
+                            <input class="form-control" name="nombreTienda" type="text" [(ngModel)]="nombreTienda" [ngModelOptions]="{standalone: true}" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label>Monto</label>
+                            <input class="form-control" name="monto" formControlName="monto" type="text" [(ngModel)]="pagoMonto.monto">
+                            <div *ngIf="cobrarSuperMonedasSubmitted && cobSupForm.monto.errors" class="invalid-feedback" style="display: block;">
+                                <div *ngIf="cobSupForm.monto.errors.required">Monto es requerido
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary mr-1" [disabled]="cargandoCompraSupermonedas" (click)="enviarMonto()"> <span
+                                *ngIf="cargandoCompraSupermonedas" class="spinner-border spinner-border-sm mr-1"></span>Generar Comprobante</button>
+                        <button (click)="toggleSidebar('guardarCompraSupermonedas','')" class="btn btn-outline-secondary" data-dismiss="modal">Cancelar</button> </div>
+                </form> -->
+      </div>
+    </div>
+    <!-- Modal to add new user Ends-->
+  </div>
+</core-sidebar>
+
+<ng-template #mensajeConfirModal let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title text-center" id="exampleModalCenterTitle">Confirmación de Venta de Crédito</h5>
+    <button type="button" class="close" (click)="modal.dismiss('Cross click')" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" tabindex="0" ngbAutofocus>
+    <p>
+      El crédito de Número XXXXXX ha sido procesado con éxito, en los próximos x días será procesado y acreditado a la
+      cuenta xxx de la Corp.
+    </p>
+    <br>
+    <p>
+      Recuerde que debe enviar los Habilitantes de crédito con el número XXXX previo a ser acreditado el dinero en la
+      ceunta de la Corp
+    </p>
+  </div>
+  <div class="text-center">
+    <button type="button" class="btn btn-light" (click)="cerrarModal()">Listo</button>
+  </div>
+</ng-template>
+
+<ng-template #mensajeModal let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="exampleModalCenterTitle">Mensaje</h5>
+    <button type="button" class="close" (click)="modal.dismiss('Cross click')" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" tabindex="0" ngbAutofocus>
+    <div [innerHTML]="mensaje"></div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light" (click)="cerrarModal()">Cerrar</button>
+  </div>
+</ng-template>
+<ng-template #mensajeAfirmacionl let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="exampleModalCenterTitle">Mensaje</h5>
+    <button type="button" class="close" (click)="modal.dismiss('Cross click')" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" tabindex="0" ngbAutofocus>
+    <div [innerHTML]="">ESTA SEGURO QUE DESA GUARDAR Y CONTINUAR</div>
+  </div>
+
+
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light" (click)="confirmarPedido(true)">Aceptar</button>
+    <button type="button" class="btn btn-light" (click)="cerrarModal()">Cacnelar</button>
+  </div>
+</ng-template>
+
+
+<ng-template #ConfirVent let-modal>
+  <div class="modal-header">
+
+    <button type="button" class="close" (click)="modal.dismiss('Cross click')" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" tabindex="0" ngbAutofocus>
+
+    <form class="add-new-user modal-content pt-0" [formGroup]="confirmarDatosForm">
+
+      <div class="modal-header mb-1">
+        <h5 class="modal-title" id="exampleModalLabel">Confirmación </h5>
+      </div>
+      <div class="modal-body flex-grow-1">
+
+        <div class="form-group">
+          <label>Ingreso número de autorización del Cliente (código enviado a
+            {{this.oculatrTelefono(datosConfir.whatsappPersona)}}
+            WhatsApp del
+            Cliente y al correo {{this.oculatrCorreo(datosConfir.emailPersona)}})</label>
+          <input formControlName="nroAutCli" class="form-control" name="nombreTienda" type="text">
+        </div>
+        <div class="invalid-feedback" style="display: block;" *ngIf="confrimacionForm.nroAutCli.errors?.codigoUsuario">
+          Código Invalido.
+        </div>
+        <div *ngIf="confirmarDatosSubmit && confrimacionForm.nroAutCli.errors" class="invalid-feedback"
+          style="display: block;">
+          <div *ngIf="confrimacionForm.nroAutCli.errors.required"> Requerido
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Ingreso número de autorización de la Corp (código enviado a
+<!--            {{this.oculatrTelefono(datosConfir.telefono1)}} WhatsApp-->
+            de
+            la
+            {{this.datosConfir.nombreComercial}}y al correo:
+<!--            {{this.oculatrCorreo(datosConfir.correoCorp)}}-->
+            )</label>
+          <input formControlName="nroAutCorp" class="form-control" name="nombreTienda" type="text">
+        </div>
+        <div class="invalid-feedback" style="display: block;" *ngIf="confrimacionForm.nroAutCorp.errors?.codigoCorp">
+          Código Invalido.
+        </div>
+        <div *ngIf="confirmarDatosSubmit && confrimacionForm.nroAutCorp.errors" class="invalid-feedback"
+          style="display: block;">
+          <div *ngIf="confrimacionForm.nroAutCorp.errors.required"> Requerido
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Número de Facatura:</label>
+          <input formControlName="nroFact" class="form-control" name="nombreTienda" type="text">
+        </div>
+
+        <div *ngIf="confirmarDatosSubmit && confrimacionForm.nroFact.errors" class="invalid-feedback"
+          style="display: block;">
+          <div *ngIf="confrimacionForm.nroFact.errors.required"> Requerido
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Monto de Venta:</label>
+          <input formControlName="nroVenta" class="form-control" name="nombreTienda" type="text">
+        </div>
+        <div *ngIf="confirmarDatosSubmit && confrimacionForm.nroVenta.errors" class="invalid-feedback"
+          style="display: block;">
+          <div *ngIf="confrimacionForm.nroVenta.errors.required"> Requerido
+          </div>
+          <div *ngIf="confrimacionForm.nroVenta.errors.pattern"> Solo númericos
+          </div>
+          <div *ngIf="confrimacionForm.nroVenta.errors?.montoDisponible">
+            Monto disponible es superior.
+          </div>
+        </div>
+      </div>
+
+      <button (click)="enviarMonto()" class="btn btn-outline-secondary" data-dismiss="modal">Confirmar Datos</button>
+    </form>
+  </div>
+
+  <div class="modal-footer">
+
+  </div>
+</ng-template>
+
+
+
+<ng-template #ConfirVentCred let-modal>
+  <div class="modal-header">
+
+    <button type="button" class="close" (click)="modal.dismiss('Cross click')" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" tabindex="0" ngbAutofocus>
+
+    <form class="add-new-user modal-content pt-0" [formGroup]="confirmarDatosForm2">
+
+      <div class="modal-header mb-1">
+        <h5 class="modal-title" id="exampleModalLabel">Confirmación de venta con Crédito</h5>
+      </div>
+      <div class="modal-body flex-grow-1">
+        <table mdbTable>
+          <thead class="black white-text">
+            <tr>
+              <th>Habilitante </th>
+              <th>Acción</th>
+              <th>Confirmar</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Pagaré del credito de frima de Cliente <a (click)="generatePdf('open','pagare')">Pdf</a></td>
+              <td>El cliente debe firmar</td>
+              <td>
+                <input formControlName="confir1" type="checkbox" name="miCheck">
+                <div *ngIf="confirmarDatosSubmit2 && confrimacionForm2.confir1.errors" class="invalid-feedback"
+                  style="display: block;">
+                  <div *ngIf="confrimacionForm2.confir1.errors.required"> requerido
+                  </div>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>Tabla de Amortización para Firmar de cliente <a (click)="generatePdf('open','')">Tabla.Pdf</a> </td>
+              <td>El cliente debe firmar</td>
+              <td>
+                <input formControlName="confir2" type="checkbox" name="miCheck">
+                <div *ngIf="confirmarDatosSubmit2 && confrimacionForm2.confir2.errors" class="invalid-feedback"
+                  style="display: block;">
+                  <div *ngIf="confrimacionForm2.confir2.errors.required"> requerido
+                  </div>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>Manual para Pago del crédito</td>
+              <td>Entregar al cliente impreso</td>
+              <td>
+                <input formControlName="confir3" type="checkbox" name="miCheck">
+                <div *ngIf="confirmarDatosSubmit2 && confrimacionForm2.confir3.errors" class="invalid-feedback"
+                  style="display: block;">
+                  <div *ngIf="confrimacionForm2.confir3.errors.required"> requerido
+                  </div>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>Cédula del Cliente</td>
+              <td>Sacar copia de la cédula del Cliente</td>
+              <td>
+                <input formControlName="confir4" type="checkbox" name="miCheck">
+                <div *ngIf="confirmarDatosSubmit2 && confrimacionForm2.confir4.errors" class="invalid-feedback"
+                  style="display: block;">
+                  <div *ngIf="confrimacionForm2.confir4.errors.required"> requerido
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+
+
+
+
+      </div>
+
+      <button (click)="confirmar()" class="btn btn-outline-secondary" data-dismiss="modal">Confirmar </button>
+    </form>
+  </div>
+
+  <div class="modal-footer">
+
+  </div>
+</ng-template>

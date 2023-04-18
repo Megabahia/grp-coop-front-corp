@@ -1,0 +1,274 @@
+<!-- Modal to add new user starts-->
+<div *ngIf="pantalla===1">
+    <form class="add-new-user modal-content pt-0" [formGroup]="datosClienteForm">
+
+        <div class="modal-header mb-1">
+            <h5 class="modal-title">
+                CONSULTA DE CRÉDITOS DE CONSUMO
+            </h5>
+        </div>
+        <div class="modal-body flex-grow-1">
+
+            <div class="form-group">
+                <label>
+                    Número de cédula del Cliente:
+                </label>
+                <div class="custom-file">
+                    <input type="text"
+                           class="form-control"
+                           formControlName="identificacion"
+                    >
+
+                    <div *ngIf="submitted && controlsForm.identificacion.errors" class="invalid-feedback"
+                         style="display: block;">
+                        <div *ngIf="controlsForm.identificacion.errors.required">Cédula es requerido
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>
+                    Ingrese el código del cliente:
+                </label>
+
+                <div class="custom-file">
+                    <input type="text"
+                           class="form-control"
+                           formControlName="codigo"
+                    >
+                    <div *ngIf="submitted && controlsForm.codigo.errors" class="invalid-feedback"
+                         style="display: block;">
+                        <div *ngIf="controlsForm.codigo.errors.required">Apellido es requerido</div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="mt-2 text-center">
+                <button class="btn btn-primary mr-1" (click)="continuar(modalSLC)"
+                >
+                    Continuar
+                </button>
+                <button class="btn btn-primary mr-1" (click)="generar(modalSLC)"
+                >
+                    Generar
+                </button>
+
+            </div>
+
+        </div>
+    </form>
+</div>
+<div *ngIf="pantalla===2" class="m-2">
+    <form class="add-new-user modal-content pt-0" [formGroup]="creditoAprobadoForm">
+        <div class="modal-header mb-1">
+            <h5 class="modal-title">CRÉDITO APROBADO
+            </h5>
+        </div>
+        <div class="modal-body flex-grow-1">
+            <div class="form-group">
+                <label>
+                    Nombres del cliente:
+                </label>
+                <div class="custom-file">
+                    <input type="text"
+                           class="form-control"
+                           formControlName="nombre"
+
+                    >
+                    <div *ngIf="submittedCA && creditoAprobadoControlsForm.nombre.errors" class="invalid-feedback"
+                         style="display: block;">
+                        <div *ngIf="creditoAprobadoControlsForm.nombre.errors.required">Nombres es requerido
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>
+                    Apellidos del cliente:
+                </label>
+
+                <div class="custom-file">
+                    <input type="text"
+                           class="form-control"
+                           formControlName="apellido"
+
+                    >
+                    <div *ngIf="submittedCA && creditoAprobadoControlsForm.apellido.errors" class="invalid-feedback"
+                         style="display: block;">
+                        <div *ngIf="creditoAprobadoControlsForm.apellido.errors.required"> Apellidos es requerido</div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>
+                    Número de cédula:
+                </label>
+
+                <div class="custom-file">
+                    <input type="text"
+                           class="form-control"
+                           formControlName="identificacion"
+
+                    >
+                    <div *ngIf="submittedCA && creditoAprobadoControlsForm.identificacion.errors"
+                         class="invalid-feedback"
+                         style="display: block;">
+                        <div *ngIf="creditoAprobadoControlsForm.identificacion.errors.required">Identificación es
+                            requerido
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>
+                    Número de celular:
+                </label>
+
+                <div class="custom-file">
+                    <input type="text"
+                           class="form-control"
+                           formControlName="celular"
+                    >
+                    <div *ngIf="submittedCA && creditoAprobadoControlsForm.celular.errors" class="invalid-feedback"
+                         style="display: block;">
+                        <div *ngIf="creditoAprobadoControlsForm.celular.errors.required">Número de celular es
+                            requerido
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>
+                    Correo electrónico
+                </label>
+
+                <div class="custom-file">
+                    <input type="text"
+                           class="form-control"
+                           formControlName="correo"
+                    >
+                    <div *ngIf="submittedCA && creditoAprobadoControlsForm.correo.errors" class="invalid-feedback"
+                         style="display: block;">
+                        <div *ngIf="creditoAprobadoControlsForm.correo.errors.required">Correo electrónico es
+                            requerido
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>
+                    Dirección
+                </label>
+
+                <div class="custom-file">
+                    <input type="text"
+                           class="form-control"
+                           formControlName="direccion"
+                    >
+                    <div *ngIf="submittedCA && creditoAprobadoControlsForm.direccion.errors" class="invalid-feedback"
+                         style="display: block;">
+                        <div *ngIf="creditoAprobadoControlsForm.direccion.errors.required">Dirección es
+                            requerida
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label>
+                    Monto aprobado
+                </label>
+
+                <div class="custom-file">
+                    <input type="text"
+                           class="form-control"
+                           formControlName="monto"
+                           disabled
+                    >
+                    <div *ngIf="submittedCA && creditoAprobadoControlsForm.monto.errors" class="invalid-feedback"
+                         style="display: block;">
+                        <div *ngIf="creditoAprobadoControlsForm.monto.errors.required">Monto aprobado es requerido</div>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="saldoDisponible" class="form-group">
+                <label>
+                    Saldo Disponible
+                </label>
+
+                <div class="custom-file">
+                    <input type="text"
+                           class="form-control"
+                           formControlName="saldoDisponible"
+                           disabled
+                    >
+                    <div *ngIf="submittedCA && creditoAprobadoControlsForm.saldoDisponible.errors"
+                         class="invalid-feedback"
+                         style="display: block;">
+                        <div *ngIf="creditoAprobadoControlsForm.saldoDisponible.errors.required">Saldo disponible es
+                            requerido
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>
+                    Cooperativa responsable
+                </label>
+
+                <div class="custom-file">
+                    <input disabled="true"
+                           type="text"
+                           class="form-control"
+                           formControlName="cooperativa"
+                    >
+                    <div *ngIf="submittedCA && creditoAprobadoControlsForm.cooperativa.errors" class="invalid-feedback"
+                         style="display: block;">
+                        <div *ngIf="creditoAprobadoControlsForm.cooperativa.errors.required">Cooperativa responsable es
+                            requerido
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="mt-2 text-center">
+                <button class="btn btn-primary mr-1" (click)="facturar(modalSLC)"
+                >
+                    FACTURAR
+                </button>
+                <button class="btn btn-primary mr-1"
+                >
+                    CANCELAR
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+<ng-template #modalSLC let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="myModalLabel1">Aviso:</h4>
+        <button type="button" class="close" (click)="modal.dismiss('Cross click')" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div style="padding: 20px 20px 20px 20px;">
+        <div class="content-header text-center">
+            <h5 class="mb-0">{{mensaje}}</h5>
+        </div>
+    </div>
+
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="modal.close('Accept click')" rippleEffect>
+            Cerrar
+        </button>
+    </div>
+</ng-template>
+
+

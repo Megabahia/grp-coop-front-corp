@@ -1,0 +1,76 @@
+<div class="m-2">
+    <section class=" modal-content pt-0">
+        <div class="modal-header mb-1">
+            <h5 class="modal-title ">
+                ENVÍOS REALIZADOS
+            </h5>
+        </div>
+        <div class="modal-body flex-grow-1">
+            <div class="content-wrapper">
+
+                <div class="content-body">
+                    <!-- users list start -->
+                    <section class="app-user-list">
+                        <!-- users filter end -->
+                        <!-- list section start -->
+                        <div class="card align-items-end">
+
+                            <div class="row m-75">
+                                <div class="fixed">
+                                    <label>Mostrar: </label>
+                                    <select class="form-control-sm">
+                                        <option value="10">10</option>
+                                        <option value="25">25</option>
+                                        <option value="50">50</option>
+                                        <option value="100">100</option>
+                                    </select>
+
+                                </div>
+
+                            </div>
+                            <div class="card-datatable table-responsive pt-0">
+                                <table class="user-list-table table table-striped">
+                                    <thead class="thead-light">
+                                    <tr>
+
+                                        <th>Número de guía</th>
+                                        <th>Fecha</th>
+                                        <th>Courier</th>
+                                        <th>Dirección de entrega</th>
+                                        <th>Cooperativa</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr *ngFor="let envio of envios">
+                                        <td>{{envio.numeroEnvio}}</td>
+                                        <td>{{envio.created_at}}</td>
+                                        <td>{{envio.courierResponsable}} </td>
+                                        <td>{{envio.direccionEntrega}}</td>
+                                        <td>{{envio.cooperativaEntrega}}</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- Modal to add new user starts-->
+                            <ngb-pagination #paginator [collectionSize]="collectionSize" [(page)]="page"
+                                            [(pageSize)]="page_size"
+                                            [maxSize]="5" [ellipses]="false" [boundaryLinks]="true"></ngb-pagination>
+
+
+                            <!-- Modal to add new user Ends-->
+                        </div>
+                        <div class=" text-center">
+
+                            <button class="btn btn-primary mr-1"
+                            >
+                                CERRAR
+                            </button>
+                        </div>
+                        <!-- list section end -->
+                    </section>
+                    <!-- users list ends -->
+                </div>
+            </div>
+        </div>
+    </section>
+</div>

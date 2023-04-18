@@ -1,0 +1,134 @@
+<div class="content-wrapper">
+    <div class="content-header row">
+        <div class="col-12 mb-2">
+            <div class="row breadcrumbs-top">
+                <div class="col-12">
+                    <h2 class="content-header-title float-left mb-0">Reporte de Cobros con Supermonedas</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="content-body">
+        <!-- users list start -->
+        <section class="app-user-list">
+            <!-- users filter end -->
+            <!-- list section start -->
+            <div class="card">
+
+                <div class="row m-75">
+                    <div class="col-lg-12 col-xl-6">
+                        <label>Mostrar</label>
+                        <select class="form-control-sm">
+                            <option value="10">10</option>
+                            <option value="25">25</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                        </select>
+
+                    </div>
+                    <div class="col-lg-12 col-xl-6 text-right">
+                        <button class="btn btn-success waves-effect waves-float waves-light" tabindex="0" aria-controls="DataTables_Table_0" type="button" data-toggle="modal" data-target="#modals-slide-in" (click)="exportarExcel()">
+                            Exportar a Excel
+                        </button>
+                    </div>
+                </div>
+                <div class="card-datatable table-responsive pt-0">
+                    <table class="user-list-table table table-striped">
+                        <thead class="thead-light">
+                            <tr>
+                                <th>
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="customCheck2" />
+                                        <label class="custom-control-label" for="customCheck2"></label>
+                                    </div>
+                                </th>
+                                <th>Fecha cobro</th>
+                                <th>Monto factura</th>
+                                <th>Numero factura</th>
+                                <th>Monto cobrado con Big Puntos</th>
+                                <th>Nombre cliente</th>
+                                <th>Cédula</th>
+                                <th>WhatsApp</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let cobro of cobros">
+                                <td>
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="customCheck2" />
+                                        <label class="custom-control-label" for="customCheck2"></label>
+                                    </div>
+                                </td>
+                                <td>{{transformarFecha(cobro.fechaCobro)}}</td>
+                                <td>{{cobro.montoTotalFactura}}</td>
+                                <td>{{cobro.numeroFactura}}</td>
+                                <td>{{cobro.montoSupermonedas}}</td>
+                                <td>{{cobro.nombreCompleto}}</td>
+                                <td>{{cobro.identificacion}}</td>
+                                <td>{{cobro.whatsapp}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- Modal to add new user starts-->
+                <ngb-pagination #paginator [collectionSize]="collectionSize" [(page)]="page" [(pageSize)]="page_size"
+                    [maxSize]="5" [ellipses]="false" [boundaryLinks]="true"></ngb-pagination>
+                <div class="modal modal-slide-in new-user-modal fade" id="calificar">
+                    <div class="modal-dialog">
+                        <div class="modal-content pt-0">
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal modal-slide-in new-user-modal fade" id="modals-slide-in">
+                    <div class="modal-dialog">
+                        <div class="modal-content pt-0">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">×</button>
+                            <div class="modal-header mb-1">
+                                <h5 class="modal-title" id="exampleModalLabel">Nueva factura</h5>
+                            </div>
+                            <div class="modal-body flex-grow-1">
+
+                                <div class="form-group">
+                                    <label for="customFile1">Adjuntar archivos (PDF y XML)</label>
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input" id="customFile1" required />
+                                        <label class="custom-file-label" for="customFile1">Escojer</label>
+                                    </div>
+                                </div>
+
+
+
+
+                                <button class="btn btn-primary mr-1" data-toggle="modal" data-target="#exito"
+                                    data-dismiss="modal" aria-label="Close">Guardar</button>
+                                <button type="reset" class="btn btn-outline-secondary"
+                                    data-dismiss="modal">Cancelar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal to add new user Ends-->
+            </div>
+            <!-- list section end -->
+        </section>
+        <!-- users list ends -->
+    </div>
+</div>
+
+<ng-template #mensajeModal let-modal>
+    <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalCenterTitle">Mensaje</h5>
+        <button type="button" class="close" (click)="modal.dismiss('Cross click')" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body" tabindex="0" ngbAutofocus>
+        <div [innerHTML]="mensaje"></div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light" (click)="cerrarModal()">Cerrar</button>
+    </div>
+</ng-template>

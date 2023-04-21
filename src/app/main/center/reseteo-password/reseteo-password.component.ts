@@ -6,6 +6,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { RecuperarPassService } from '../recuperar-pass/recuperar-pass.service';
 import { Subject } from 'rxjs';
 import { ReseteoPasswordService } from './reseteo-password.service';
+import {environment} from "../../../../environments/environment";
 
 @Component({
   selector: 'app-reseteo-password',
@@ -44,7 +45,7 @@ export class ReseteoPasswordComponent implements OnInit {
     private _reseteoPasswordService: ReseteoPasswordService,
     private _activatedRoute: ActivatedRoute
   ) {
-    this.siteKey = '6Ld-XJ8lAAAAAN6Jt1tdp1j5gtlJEKx7eQsnJQuM';
+    this.siteKey = environment.setKey;
     this._unsubscribeAll = new Subject();
 
     // Configure the layout

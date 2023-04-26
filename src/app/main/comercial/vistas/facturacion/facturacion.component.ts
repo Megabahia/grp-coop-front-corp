@@ -22,6 +22,7 @@ export class FacturacionComponent implements OnInit {
     public montoAprobado;
     public mostrarCampos = true;
     public valuePay = false;
+    public creditoAprobadoActual;
 
     constructor(
         private _formBuilder: FormBuilder,
@@ -38,6 +39,7 @@ export class FacturacionComponent implements OnInit {
         this.route.params.subscribe((params: Params) => this.idCredito = params['id']);
 
         this._consultaCreditosAprobadosService.obtenerCredito(this.idCredito).subscribe(info => {
+            this.creditoAprobadoActual = info;
             this.montoAprobado = info.montoAprobado;
             console.log('montoAprobado', this.montoAprobado);
         });
@@ -91,14 +93,23 @@ export class FacturacionComponent implements OnInit {
         const data = {
             numeroIdentificacion: this.cliente.identificacion
         };
-        this.creditoAprobado = this.factruacionForm.getRawValue();
-        this.actualizarCreditoFormData.set('precio', this.creditoAprobado.valorTotal);
-        this.actualizarCreditoFormData.set('cantidad', this.creditoAprobado.cantidad);
-        this.actualizarCreditoFormData.set('descripcion', this.creditoAprobado.descripcion);
-        this.actualizarCreditoFormData.set('cliente', JSON.stringify(this.cliente));
-        this.actualizarCreditoFormData.set('credito_id', this.idCredito);
-        this.actualizarCreditoFormData.set('metodoPago', this.creditoAprobado.metodoPago);
-        this.actualizarCreditoFormData.set('pago', this.creditoAprobado.pago);
+        this.creditoAprobado = this.factruacionForm.value;
+        this.actualizarCreditoFormData.delete('precio');
+        this.actualizarCreditoFormData.append('precio', this.creditoAprobado.valorTotal);
+        this.actualizarCreditoFormData.delete('cantidad');
+        this.actualizarCreditoFormData.append('cantidad', this.creditoAprobado.cantidad);
+        this.actualizarCreditoFormData.delete('descripcion');
+        this.actualizarCreditoFormData.append('descripcion', this.creditoAprobado.descripcion);
+        this.actualizarCreditoFormData.delete('cliente');
+        this.actualizarCreditoFormData.append('cliente', JSON.stringify(this.cliente));
+        this.actualizarCreditoFormData.delete('credito_id');
+        this.actualizarCreditoFormData.append('credito_id', this.idCredito);
+        this.actualizarCreditoFormData.delete('metodoPago');
+        this.actualizarCreditoFormData.append('metodoPago', this.creditoAprobado.metodoPago);
+        this.actualizarCreditoFormData.delete('pago');
+        this.actualizarCreditoFormData.append('pago', this.creditoAprobado.pago);
+        this.actualizarCreditoFormData.delete('creditoPersona_id');
+        this.actualizarCreditoFormData.append('creditoPersona_id', this.creditoAprobadoActual._id);
         this._consultaCreditosService.guardarDatos(this.actualizarCreditoFormData).subscribe((info) => {
         }, (error) => {
             this.mensaje = 'Error al guardar los datos' + error;

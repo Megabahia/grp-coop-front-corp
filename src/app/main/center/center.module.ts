@@ -18,6 +18,7 @@ import { Ng2FlatpickrModule } from 'ng2-flatpickr';
 import { PerfilUsuarioComponent } from './perfil-usuario/perfil-usuario.component';
 import { Role } from 'app/auth/models';
 import {NgxCaptchaModule} from 'ngx-captcha';
+import {SharedModule} from "../shared/shared.module";
 
 const routes = [
   {
@@ -53,18 +54,19 @@ const routes = [
 
 @NgModule({
   declarations: [LoginComponent, RecuperarPassComponent, RegistroComponent, ReseteoPasswordComponent],
-  imports: [
-    RouterModule.forChild(routes),
-    ContentHeaderModule,
-    TranslateModule,
-    CoreCommonModule,
-    SwiperModule,
-    FormsModule,
-    CoreTouchspinModule,
-    CoreSidebarModule,
-    NgbModule,
-    Ng2FlatpickrModule,
-    NgxCaptchaModule,
-  ]
+    imports: [
+        RouterModule.forChild(routes),
+        ContentHeaderModule,
+        TranslateModule,
+        CoreCommonModule,
+        SwiperModule,
+        FormsModule,
+        CoreTouchspinModule,
+        CoreSidebarModule,
+        NgbModule,
+        Ng2FlatpickrModule,
+        NgxCaptchaModule,
+        SharedModule,
+    ]
 })
 export class CenterModule { }

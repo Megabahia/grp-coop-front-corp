@@ -317,7 +317,7 @@ export const menu: CoreMenu[] = [
       },
       {
         id: 'envio-doocumentos',
-        title: 'Envió de documentos',
+        title: 'Envío de documentos',
         // translate: 'MENU.APPS.EMAIL',
         type: 'item',
         // icon: 'dollar-sign',

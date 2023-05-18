@@ -3,6 +3,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ConsultaCreditosAprobadosService} from './consulta-creditos-aprobados.service';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {ToastrService} from 'ngx-toastr';
 
 @Component({
     selector: 'app-consulta-creditos-aprobados',
@@ -26,7 +27,8 @@ export class ConsultaCreditosAprobadosComponent implements OnInit {
         private _formBuilder: FormBuilder,
         private _router: Router,
         private _consultaCreditosService: ConsultaCreditosAprobadosService,
-        private route: ActivatedRoute
+        private route: ActivatedRoute,
+        private toastr: ToastrService,
     ) {
     }
 
@@ -43,7 +45,7 @@ export class ConsultaCreditosAprobadosComponent implements OnInit {
             celular: ['', [Validators.required]], //
             correo: ['', [Validators.required]], //
             direccion: ['', [Validators.required]], //
-            monto: ['', [Validators.required]], //
+            montoLiquidar: ['', [Validators.required]], //
             saldoDisponible: [''], //
             cooperativa: ['coopsanjose-corp.crediventa.com', [Validators.required]], //
         });
@@ -67,7 +69,7 @@ export class ConsultaCreditosAprobadosComponent implements OnInit {
             codigo: this.datosClienteForm.getRawValue().codigo
         };
         this._consultaCreditosService.valdiar(data).subscribe(info => {
-            localStorage.setItem('creditoConsulta', JSON.stringify({identificacion: info.numeroIdentificacion, estado: 'aprovado'}));
+            localStorage.setItem('creditoConsulta', JSON.stringify({identificacion: info.numeroIdentificacion, estado: 'Aprobado'}));
 
             console.log(info);
             this.credito = info;
@@ -77,7 +79,7 @@ export class ConsultaCreditosAprobadosComponent implements OnInit {
                 identificacion: info?.numeroIdentificacion,
                 celular: info?.celular,
                 correo: info?.email,
-                monto: info?.montoAprobado,
+                montoLiquidar: info?.montoLiquidar,
                 saldoDisponible: info?.montoDisponible,
                 cooperativa: 'https://coopsanjose-corp.crediventa.com'
             });
@@ -107,12 +109,15 @@ export class ConsultaCreditosAprobadosComponent implements OnInit {
             this.mensaje = 'Código enviado al correo';
             this.modalOpenSLC(modal);
 
+        }, error => {
+            this.toastr.error('Este usuario NO TIENE un Crédito Aprobado. Verifique la información ingresada y vuelva a intentar.',
+                'AVISO');
         });
     }
 
     facturar(modal) {
         localStorage.removeItem('montoDisponible');
-        localStorage.setItem('montoDisponible', this.credito.monto);
+        localStorage.setItem('montoDisponible', this.credito.montoDisponible);
         this.submittedCA = true;
         if (this.creditoAprobadoForm.invalid) {
             return;
@@ -126,7 +131,7 @@ export class ConsultaCreditosAprobadosComponent implements OnInit {
             celular: formulario.celular,
             correo: formulario.correo,
         }));
-        this.actualizarCreditoFormData.set('monto', formulario.monto);
+        this.actualizarCreditoFormData.set('monto', formulario.montoLiquidar);
         this.actualizarCreditoFormData.set('cooperativa', formulario.cooperativa);
         this.actualizarCreditoFormData.set('credito_id', this.credito._id);
         this._consultaCreditosService.guardarDatos(this.actualizarCreditoFormData).subscribe((info) => {

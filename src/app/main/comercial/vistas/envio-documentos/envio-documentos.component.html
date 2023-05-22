@@ -481,6 +481,48 @@
                     </div>
                 </div>
             </div>
+            <div class="form-group">
+                <label>
+                    Buró IFIS
+                </label>
+                <a *ngIf="credito?.buroCreditoIfis" href="{{credito?.buroCreditoIfis}}"> ver </a>
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input" id="buroCreditoIfis"
+                           formControlName="buroCreditoIfis"
+                           (change)="subirDoc( $event, 'buroCreditoIfis')"
+                           accept="image/jpeg,image/png,application/pdf"/>
+                    <label class="custom-file-label"
+                           for="buroCreditoIfis">{{envioForm.get('buroCreditoIfis').value}}</label>
+                    <div *ngIf="submitted && envioControlsForm.buroCreditoIfis.errors" class="invalid-feedback"
+                         style="display: block;">
+                        <div *ngIf="envioControlsForm.buroCreditoIfis.errors.required">
+                            Buró IFIS
+                            es requerido
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>
+                    Contratos de cuenta
+                </label>
+                <a *ngIf="credito?.contratosCuenta" href="{{credito?.contratosCuenta}}"> ver </a>
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input" id="contratosCuenta"
+                           formControlName="contratosCuenta"
+                           (change)="subirDoc( $event, 'contratosCuenta')"
+                           accept="image/jpeg,image/png,application/pdf"/>
+                    <label class="custom-file-label"
+                           for="contratosCuenta">{{envioForm.get('contratosCuenta').value}}</label>
+                    <div *ngIf="submitted && envioControlsForm.contratosCuenta.errors" class="invalid-feedback"
+                         style="display: block;">
+                        <div *ngIf="envioControlsForm.contratosCuenta.errors.required">
+                            Contratos de cuenta
+                            es requerido
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="text-center">

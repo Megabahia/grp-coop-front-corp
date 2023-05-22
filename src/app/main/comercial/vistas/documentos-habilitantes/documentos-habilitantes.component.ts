@@ -14,24 +14,30 @@ export class DocumentosHabilitantesComponent implements OnInit {
     public credito;
 
     public documentos = [
-        {'label': 'Solicitud de crédito', 'valor': 'solicitudCredito'},
-        {'label': 'Evaluación crediticia', 'valor': 'evaluacionCrediticia'},
-        {'label': 'Documento Buró', 'valor': 'buro'},
-        {'label': 'Copia de cédula y/o RUC ', 'valor': 'identificacion'},
+        {'label': 'Copia de cédula', 'valor': 'identificacion'},
+        {'label': 'Foto tamaño carnet', 'valor': 'fotoCarnet'},
         {'label': 'Papeleta de votación', 'valor': 'papeletaVotacion'},
         {'label': 'Copia de cédula de cónyuge', 'valor': 'identificacionConyuge'},
         {'label': 'Papeleta de votación de cónyuge', 'valor': 'papeletaVotacionConyuge'},
         {'label': 'Copia de planilla de luz del Domicilio', 'valor': 'planillaLuzDomicilio'},
-        {'label': 'Mecanizado del IESS', 'valor': 'mecanizadoIees'},
+        {'label': 'Mecanizado del IESS', 'valor': 'mecanizadoIess'},
+
         {'label': 'Copia de matrícula del vehículo', 'valor': 'matriculaVehiculo'},
         {'label': 'Copia de pago de impuesto predial', 'valor': 'impuestoPredial'},
-        {'label': 'Autorización de información ', 'valor': 'autorizacionInformacion'},
-        {'label': 'Ficha cliente creado ', 'valor': 'fichaCliente'},
-        {'label': 'Convenios cuenta creada', 'valor': 'conveniosCuenta'},
+        {'label': 'Buró de Crédito', 'valor': 'buroCredito'},
+
+        {'label': 'Copia de planilla de luz del Negocio, Oficina o de la Asociación', 'valor': 'planillaLuzNegocio'},
+        {'label': 'Copia de la Factura de venta del último mes', 'valor': 'facturasVentas2meses'},
+        {'label': 'Copia de la Factura de venta del penúltimo mes (hace 2 meses)', 'valor': 'facturasVentas2meses2'},
+        {'label': 'Certificado de la Asociación (es opcional y aplica si usted es transportista: Bus o Taxi)', 'valor': 'facturasVentasCertificado'},
+        {'label': 'Certificado de la Asociación (es opcional y aplica si usted es transportista: Bus o Taxi)', 'valor': 'facturasVentasCertificado'},
+
+        {'label': 'Solicitud de crédito', 'valor': 'solicitudCredito'},
+        {'label': 'Evaluación crediticia', 'valor': 'evaluacionCrediticia'},
+        {'label': 'Buró Institución Financiera', 'valor': 'buroCreditoIfis'},
         {'label': 'Pagaré', 'valor': 'pagare'},
+        {'label': 'Contratos de cuenta', 'valor': 'contratosCuenta'},
         {'label': 'Tabla de amortización', 'valor': 'tablaAmortizacion'},
-        {'label': 'Seguro de desgravamen', 'valor': 'seguroDesgravamen'},
-        {'label': 'Gastos Administrativos', 'valor': 'gastosAdministracion'},
     ];
 
     constructor(
@@ -40,13 +46,13 @@ export class DocumentosHabilitantesComponent implements OnInit {
         private _consultaCreditosService: DocumentosHabilitantesService,
     ) {
     }
-
+public ver = false;
     ngOnInit(): void {
         this.route.params.subscribe((params: Params) => this.idCredito = params['identificacion']);
         this._consultaCreditosService.obtenerCredito(this.idCredito).subscribe((info) => {
             // this._consultaCreditosService.obtenerCredito('6351823c5a5d48154714551b').subscribe((info) => {
             this.credito = info;
-
+            this.ver = true;
         });
 
     }

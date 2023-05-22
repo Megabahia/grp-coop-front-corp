@@ -19,15 +19,16 @@
     </div>
     <div class="content-body">
         <section class="app-user-list">
-            <div class="card">
+            <div class="card" *ngIf="ver">
                 <div class="card-body">
-                    <div class="form-control-sm" *ngFor="let documennto of documentos">
-                        <label>{{documennto.label}}</label>
-<!--                        <label>{{credito[documennto.valor] ? credito[documennto.valor] : ''}}</label>-->
-                        <a
-                                href="{{documennto.valor ?credito[documennto.valor]:''}}">
-                            Imprimir
-                        </a>
+                    <div *ngFor="let documennto of documentos">
+                        <div *ngIf="credito[documennto.valor] !== null">
+                            <label>{{documennto.label}}</label>
+                            <a
+                                    href="{{documennto.valor ?credito[documennto.valor]:''}}">
+                                Imprimir
+                            </a>
+                        </div>
                     </div>
                     <button (click)="continuar()" class="btn btn-primary">Continuar</button>
                 </div>

@@ -66,6 +66,8 @@ export class EnvioDocumentosComponent implements OnInit {
             tablaAmortizacion: ['', [Validators.required]], //
             seguroDesgravamen: ['', [Validators.required]], //
             gastosAdministracion: ['', [Validators.required]], //
+            buroCreditoIfis: ['', [Validators.required]],
+            contratosCuenta: ['', [Validators.required]],
         });
 
         this._consultaCreditosService.getCredito({...this.creditoConsulta, page_size: 1, page: 0}).subscribe((info) => {

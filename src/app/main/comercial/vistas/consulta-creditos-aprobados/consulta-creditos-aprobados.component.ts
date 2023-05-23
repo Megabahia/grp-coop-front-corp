@@ -42,10 +42,10 @@ export class ConsultaCreditosAprobadosComponent implements OnInit {
             nombre: ['', [Validators.required]], //
             apellido: ['', [Validators.required]], //
             identificacion: ['', [Validators.required]], //
-            celular: ['', [Validators.required]], //
-            correo: ['', [Validators.required]], //
-            direccion: ['', [Validators.required]], //
-            montoLiquidar: ['', [Validators.required]], //
+            celular: ['', []], //
+            correo: ['', []], //
+            direccion: ['', []], //
+            montoAprobado: ['', [Validators.required]], //
             saldoDisponible: [''], //
             cooperativa: ['coopsanjose-corp.crediventa.com', [Validators.required]], //
         });
@@ -79,7 +79,7 @@ export class ConsultaCreditosAprobadosComponent implements OnInit {
                 identificacion: info?.numeroIdentificacion,
                 celular: info?.celular,
                 correo: info?.email,
-                montoLiquidar: info?.montoLiquidar,
+                montoAprobado: info?.montoAprobado,
                 saldoDisponible: info?.montoDisponible,
                 cooperativa: 'https://coopsanjose-corp.crediventa.com'
             });

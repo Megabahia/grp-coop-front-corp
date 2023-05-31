@@ -95,7 +95,8 @@ export class FacturacionComponent implements OnInit {
         };
         this.creditoAprobado = this.factruacionForm.value;
         this.actualizarCreditoFormData.delete('precio');
-        this.actualizarCreditoFormData.append('precio', this.creditoAprobado.valorTotal);
+        const valorTotal =  this.creditoAprobado.valorTotal.toString().replace(',', '.');
+        this.actualizarCreditoFormData.append('precio',valorTotal);
         this.actualizarCreditoFormData.delete('cantidad');
         this.actualizarCreditoFormData.append('cantidad', this.creditoAprobado.cantidad);
         this.actualizarCreditoFormData.delete('descripcion');
@@ -148,9 +149,11 @@ export class FacturacionComponent implements OnInit {
     }
 
     comprobarMonto() {
-        console.log(this.factruacionForm.get('valorTotal').value);
+        let valorTotal: string = this.factruacionForm.get('valorTotal').value;
+        valorTotal = valorTotal.toString().replace(',', '.'); // Reemplazar comas por puntos
+        console.log(valorTotal);
         console.log(this.montoAprobado);
-        if (this.factruacionForm.get('valorTotal').value > this.montoAprobado) {
+        if (valorTotal > this.montoAprobado) {
             this.mostrarCampos = true;
             (this.factruacionForm as FormGroup).setControl('metodoPago',
                 new FormControl('', [Validators.required]));

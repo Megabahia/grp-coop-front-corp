@@ -15,4 +15,12 @@ export class EnvioDocumentosService {
     getCredito(data) {
         return this._httpClient.post<any>(`${environment.apiUrl}/corp/creditoPersonas/list/`, data);
     }
+
+    getUltimaFactura(data) {
+        return this._httpClient.get<any>(`${environment.apiUrl}/corp/notasPedidos/listOne/factura/${data._id}`);
+    }
+
+    actualizarFacturaFisica(data) {
+        return this._httpClient.post<any>(`${environment.apiUrl}/corp/notasPedidos/update/factura/${data._id}`, data);
+    }
 }

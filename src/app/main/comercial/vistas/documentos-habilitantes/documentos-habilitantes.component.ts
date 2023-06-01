@@ -58,6 +58,7 @@ public ver = false;
     }
 
     continuar() {
+        localStorage.setItem('idCredito', this.idCredito);
         this._router.navigate(['/comercial/envio-doocumentos', this.credito.numeroIdentificacion]);
     }
 }

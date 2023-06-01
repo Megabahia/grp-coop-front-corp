@@ -61,7 +61,9 @@ export class FacturacionComponent implements OnInit {
         this.factruacionForm = this._formBuilder.group({
             nombre: ['', [Validators.required]], //
             identificacion: ['', [Validators.required]], //
-            celular: ['', [Validators.required]], //
+            celular: ['', [Validators.required,
+                Validators.minLength(10), Validators.maxLength(10), Validators.pattern('^[0-9]*$')
+            ]],
             direccion: ['', [Validators.required]], //
             correo: ['', [Validators.required]], //
             descripcion: ['', [Validators.required]], //
@@ -95,8 +97,8 @@ export class FacturacionComponent implements OnInit {
         };
         this.creditoAprobado = this.factruacionForm.value;
         this.actualizarCreditoFormData.delete('precio');
-        const valorTotal =  this.creditoAprobado.valorTotal.toString().replace(',', '.');
-        this.actualizarCreditoFormData.append('precio',valorTotal);
+        const valorTotal = this.creditoAprobado.valorTotal.toString().replace(',', '.');
+        this.actualizarCreditoFormData.append('precio', valorTotal);
         this.actualizarCreditoFormData.delete('cantidad');
         this.actualizarCreditoFormData.append('cantidad', this.creditoAprobado.cantidad);
         this.actualizarCreditoFormData.delete('descripcion');
@@ -118,11 +120,7 @@ export class FacturacionComponent implements OnInit {
             return;
         });
         this._consultaCreditosService.consultarDatosaArchivos(data).subscribe((info) => {
-            if (info?.error === 'No existe') {
-                this._router.navigate(['/comercial/documentos-habilitantes', this.idCredito]);
-            } else {
-                this._router.navigate(['/comercial/saldo-contable']);
-            }
+            this._router.navigate(['/comercial/documentos-habilitantes', this.idCredito]);
         }, (error) => {
             this.mensaje = 'Error al guardar los datos' + error;
             if (error.error === 'No existe') {

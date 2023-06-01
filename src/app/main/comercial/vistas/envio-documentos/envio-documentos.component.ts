@@ -22,6 +22,7 @@ export class EnvioDocumentosComponent implements OnInit {
     public negocioPropio = false;
     public credito;
     public enviarForm = false;
+    public facturaFisicaId = '';
 
     constructor(
         private _formBuilder: FormBuilder,
@@ -31,6 +32,9 @@ export class EnvioDocumentosComponent implements OnInit {
         private modalService: NgbModal,
     ) {
         this.creditoConsulta = JSON.parse(localStorage.getItem('creditoConsulta'));
+        this._consultaCreditosService.getUltimaFactura({_id: localStorage.getItem('idCredito')}).subscribe((info) => {
+           this.facturaFisicaId = info._id;
+        }, error => console.log('error', error));
     }
 
     ngOnInit(): void {
@@ -47,26 +51,26 @@ export class EnvioDocumentosComponent implements OnInit {
             evaluacionCrediticia: [''], //
             buro: [''], //
             identificacion: ['', [Validators.required]], //
-            ruc: ['', [Validators.required]], //
+            // ruc: ['', [Validators.required]], //
             papeletaVotacion: ['', [Validators.required]], //
             identificacionConyuge: [''], //
             papeletaVotacionConyuge: [''], //
             fotoCarnet: ['', [Validators.required]], //
             planillaLuzDomicilio: ['', [Validators.required]], //
             planillaLuzNegocio: [''], //
-            facturasCompra: [''], //
-            facturasVenta: [''], //
+            // facturasCompra: [''], //
+            // facturasVenta: [''], //
             mecanizadoIees: ['', [Validators.required]], //
-            matriculaVehiculo: ['', [Validators.required]], //
-            impuestoPredial: ['', [Validators.required]], //
-            autorizacionInformacion: ['', [Validators.required]], //
-            fichaCliente: ['', [Validators.required]], //
-            conveniosCuenta: ['', [Validators.required]], //
+            // matriculaVehiculo: ['', [Validators.required]], //
+            // impuestoPredial: ['', [Validators.required]], //
+            // autorizacionInformacion: ['', [Validators.required]], //
+            // fichaCliente: ['', [Validators.required]], //
+            // conveniosCuenta: ['', [Validators.required]], //
             pagare: ['', [Validators.required]], //
             tablaAmortizacion: ['', [Validators.required]], //
             seguroDesgravamen: ['', [Validators.required]], //
-            gastosAdministracion: ['', [Validators.required]], //
-            buroCreditoIfis: ['', [Validators.required]],
+            // gastosAdministracion: ['', [Validators.required]], //
+            // buroCreditoIfis: ['', [Validators.required]],
             contratosCuenta: ['', [Validators.required]],
         });
 
@@ -126,9 +130,12 @@ export class EnvioDocumentosComponent implements OnInit {
         this.enviarForm = true;
         this.actualizarCreditoFormData.set('numeroIdentificacion', this.identificacion);
         this._consultaCreditosService.guardarDatos(this.actualizarCreditoFormData).subscribe((info) => {
-            this.enviarForm = false;
-            this._router.navigate(['/comercial/guia-remision']);
-
+            this._consultaCreditosService.actualizarFacturaFisica({estado: 'Pendiente', _id: this.facturaFisicaId}).subscribe((data) => {
+                this.enviarForm = false;
+                this._router.navigate(['/comercial/guia-remision']);
+            }, (error) => {
+                console.log('eerrir', error);
+            });
         }, (error) => {
             this.enviarForm = false;
             this.mensaje = 'Error al guardar los datos' + error;

@@ -73,6 +73,15 @@
                         <div *ngIf="facturacionControlsForm.celular.errors.required">Número de celular es
                             requerido
                         </div>
+                        <div *ngIf="facturacionControlsForm.celular.errors.pattern">
+                            Ingrese solo numeros numeros
+                        </div>
+                        <div *ngIf="facturacionControlsForm.celular.errors.minlength">
+                            Ingrese minimo 10 numeros
+                        </div>
+                        <div *ngIf="facturacionControlsForm.celular.errors.maxlength">
+                            Ingrese maximo 10 numeros
+                        </div>
                     </div>
                 </div>
             </div>

@@ -18,7 +18,7 @@ export const coreConfig: CoreConfig = {
   app: {
     appName     : 'Global RedPyme',                                        // App Name
     appTitle    : 'GRP Corp', // App Title
-    appLogoImage: 'assets/images/logo/logo.png',                  // App Logo
+    appLogoImage: 'assets/images/logo/logo.jpeg',                  // App Logo
   },
   layout: {
     skin  : 'default',                        // default, dark, bordered, semi-dark

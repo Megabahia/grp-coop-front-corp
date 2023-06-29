@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {CoreConfigService} from '@core/services/config.service';
@@ -6,7 +6,9 @@ import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import {RegistroService} from './registro.service';
 import {Role} from '../../../auth/models/role';
-import {environment} from "../../../../environments/environment";
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {environment} from '../../../../environments/environment';
+import {ToastrService} from 'ngx-toastr';
 
 
 @Component({
@@ -15,12 +17,16 @@ import {environment} from "../../../../environments/environment";
     styleUrls: ['./registro.component.scss']
 })
 export class RegistroComponent implements OnInit {
+    @ViewChild('mensajeModal') mensajeModal;
+    @ViewChild('mensajeConfirmModal') mensajeConfirmModal;
     //  Public
     public coreConfig: any;
     public registerForm: FormGroup;
     public loading = false;
     public submitted = false;
     public returnUrl: string;
+    public mensaje: string;
+    public mensajeConfirm = '';
     public error = '';
     public passwordTextType: boolean;
     public confirmPasswordTextType: boolean;
@@ -30,6 +36,8 @@ export class RegistroComponent implements OnInit {
     private _unsubscribeAll: Subject<any>;
     public captcha: boolean;
     public siteKey: string;
+    public email = '';
+    public nombre = '';
 
     /**
      * Constructor
@@ -41,7 +49,9 @@ export class RegistroComponent implements OnInit {
         private _registroService: RegistroService,
         private _formBuilder: FormBuilder,
         private _route: ActivatedRoute,
-        private _router: Router
+        private _router: Router,
+        private _modalService: NgbModal,
+        private toastr: ToastrService,
     ) {
         this.siteKey = environment.setKey;
         this._unsubscribeAll = new Subject();
@@ -62,6 +72,10 @@ export class RegistroComponent implements OnInit {
                 enableLocalStorage: false
             }
         };
+        this._route.queryParams.subscribe(params => {
+            this.email = params['email'];
+            this.nombre = params['nombre'];
+        });
     }
 
     // convenience getter for easy access to form fields
@@ -84,33 +98,54 @@ export class RegistroComponent implements OnInit {
         this.submitted = true;
 
         // stop here if form is invalid
-        if (this.registerForm.invalid || !this.passwordSimilar || !this.captcha) {
+        if (this.registerForm.invalid || !this.captcha) {
+            this.toastr.warning('Al parecer existe un error con la información que ingresó, por favor revise y vuelva a intentar.',
+                'Alerta');
             return;
         }
 
         // Login
-
+        this.error = null;
+        this.loading = true;
         this._registroService.registrarUsuario(
             {
-                password: this.f.password.value,
+                // password: this.f.password.value,
                 roles: Role.SuperMonedas,
                 email: this.f.correo.value,
-                estado: 1
+                estado: 5,
+                tipoUsuario: 'corp'
             }
         ).subscribe((info) => {
-                this.error = null;
-                this.loading = true;
-                localStorage.setItem('grpCorpUser', JSON.stringify(info));
-                setTimeout(() => {
-                    window.location.href = '/';
-                }, 1000);
+
+                if (info.email === 'Ya existe usuarios con este email.') {
+                    this.error = null;
+                    this.loading = false;
+                    this.mensaje = info.email;
+                    this.abrirModal(this.mensajeModal);
+                } else {
+                    this.error = null;
+                    this.loading = false;
+                    localStorage.setItem('grpPersonasUser', JSON.stringify(info));
+                    this.mensajeConfirm = 'Se ha enviado al correo electrónico registrado el Link para completar su Registro';
+                    this.abrirModal(this.mensajeConfirmModal);
+                }
+
             },
             (error) => {
-                console.log(error);
+                this.error = null;
+                this.loading = false;
+                this.mensaje = 'Ha ocurrido un error en su registro';
+                this.abrirModal(this.mensajeModal);
                 // this.error = error.error.password;
             });
         // redirect to home page
 
+    }
+
+    redirigir() {
+        setTimeout(() => {
+            window.location.href = '/';
+        }, 1000);
     }
 
     // Lifecycle Hooks
@@ -121,9 +156,9 @@ export class RegistroComponent implements OnInit {
      */
     ngOnInit(): void {
         this.registerForm = this._formBuilder.group({
-            correo: ['', [Validators.required, Validators.email]],
-            password: ['', [Validators.required]],
-            confirmPassword: ['', [Validators.required]],
+            correo: [this.email, [Validators.required, Validators.email]],
+            // password: ['', [Validators.required]],
+            // confirmPassword: ['', [Validators.required]],
             terminos: [false, [Validators.requiredTrue]]
         });
 
@@ -142,6 +177,14 @@ export class RegistroComponent implements OnInit {
         } else {
             this.passwordSimilar = false;
         }
+    }
+
+    abrirModal(modal) {
+        this._modalService.open(modal);
+    }
+
+    cerrarModal() {
+        this._modalService.dismissAll();
     }
 
     /**

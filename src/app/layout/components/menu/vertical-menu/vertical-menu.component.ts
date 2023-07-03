@@ -23,6 +23,7 @@ export class VerticalMenuComponent implements OnInit, OnDestroy {
 
   // Private
   private _unsubscribeAll: Subject<any>;
+  public usuario;
 
   /**
    * Constructor
@@ -38,6 +39,7 @@ export class VerticalMenuComponent implements OnInit, OnDestroy {
     private _coreSidebarService: CoreSidebarService,
     private _router: Router
   ) {
+    this.usuario = this._coreMenuService.grpCorpUser;
     // Set the private defaults
     this._unsubscribeAll = new Subject();
   }

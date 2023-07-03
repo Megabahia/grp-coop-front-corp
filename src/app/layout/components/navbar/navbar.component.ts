@@ -14,6 +14,7 @@ import { CoreMediaService } from '@core/services/media.service';
 import { User } from 'app/auth/models';
 import { coreConfig } from 'app/app-config';
 import { Router } from '@angular/router';
+import {CoreMenuService} from '../../../../@core/components/core-menu/core-menu.service';
 
 @Component({
   selector: 'app-navbar',
@@ -60,6 +61,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   // Private
   private _unsubscribeAll: Subject<any>;
+  public usuario;
 
   /**
    * Constructor
@@ -73,6 +75,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
    * @param {TranslateService} _translateService
    */
   constructor(
+    private _coreMenuService: CoreMenuService,
     private _router: Router,
     private _authenticationService: AuthenticationService,
     private _coreConfigService: CoreConfigService,
@@ -81,6 +84,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     private _mediaObserver: MediaObserver,
     public _translateService: TranslateService
   ) {
+    this.usuario = this._coreMenuService.grpCorpUser;
     this._authenticationService.grpCorpUser.subscribe(x => (this.grpCorpUser = x));
 
     this.languageOptions = {

@@ -35,7 +35,7 @@ export class GuiaRemisionComponent implements OnInit {
         this.envioDocumentosForm = this._formBuilder.group({
             numeroGuia: ['', [Validators.required, Validators.pattern('^[0-9]+$'), Validators.minLength(10)]], //
             fecha: ['', [Validators.required]], //
-            courier: ['', [Validators.required, Validators.email]], //
+            courier: ['', [Validators.required]], //
             direccionEntrega: ['', [Validators.required]], //
             cooperativaAsignada: ['https://coopsanjose-corp.crediventa.com', [Validators.required]], //
         });

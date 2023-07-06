@@ -77,7 +77,9 @@ export class EnvioDocumentosComponent implements OnInit {
         this._consultaCreditosService.getCredito({...this.creditoConsulta, page_size: 1, page: 0}).subscribe((info) => {
             this.credito = info.info[0];
             this.dataUser = info.info[0].user;
-            if (this.dataUser.estadoCivil === 'Solter@' || this.dataUser.estadoCivil === 'Divorciad@') {
+            if (this.credito.estadoCivil === 'Solter@' || this.credito.estadoCivil === 'Soltero' ||
+                this.credito.user.estadoCivil === 'Solter@' || this.credito.user.estadoCivil === 'Divorciado' ||
+                this.credito.estadoCivil === 'Divorciad@' || this.credito.estadoCivil === 'Divorciado') {
                 this.soltero = true;
                 this.envioForm.controls['identificacionConyuge'].clearValidators();
                 this.envioForm.controls['papeletaVotacionConyuge'].clearValidators();

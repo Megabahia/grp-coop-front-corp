@@ -29,4 +29,11 @@ export class SaldoDisponibleComponent implements OnInit {
     this.cliente = JSON.parse(cliente);
     return this.cliente.nombre + ' ' + this.cliente.apellido;
   }
+
+  refrescarLista() {
+    this._consultaCreditosService.listarEnvios({page_size: this.page_size, page: this.page, estado: ['Aprobado']})
+        .subscribe((data) => {
+          this.notasPedido = data.info;
+        });
+  }
 }

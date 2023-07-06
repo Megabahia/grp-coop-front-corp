@@ -26,4 +26,11 @@ export class SolicitudesPagosComponent implements OnInit {
             });
     }
 
+    refrescarLista() {
+        this._solicitudesPagosService.listarPagos({page_size: this.page_size, page: this.page})
+            .subscribe((data) => {
+                this.envios = data.info;
+            });
+    }
+
 }

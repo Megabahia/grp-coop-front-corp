@@ -31,4 +31,10 @@ export class SaldoContableComponent implements OnInit {
         return this.cliente.nombre + ' ' + this.cliente.apellido;
     }
 
+    refrescarLista() {
+        this._consultaCreditosService.listarEnvios({page_size: this.page_size, page: this.page})
+            .subscribe((data) => {
+                this.notasPedido = data.info;
+            });
+    }
 }

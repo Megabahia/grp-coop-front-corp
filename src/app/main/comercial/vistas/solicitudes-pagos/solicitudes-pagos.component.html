@@ -14,20 +14,26 @@
                         <!-- users filter end -->
                         <!-- list section start -->
                         <div class="card align-items-end">
+                            <nav class="navbar navbar-expand-md navbar-light justify-content-end justify-content-md-between w-100">
+                                <div class="col-2">
+                                    <button class="form-control " (click)="refrescarLista()">
+                                        Actualizar
+                                    </button>
+                                </div>
 
-                            <div class="row m-75">
-                                <div class="fixed">
-                                    <label>Mostrar: </label>
-                                    <select class="form-control-sm">
+                                <!--/ collapse  -->
+                                <div class="col-10" style="text-align: right">
+                                    <label>Mostrar</label>
+                                    <select class="form-control-sm" [(ngModel)]="page_size"
+                                            (change)="refrescarLista()">
+                                        <option value="4">4</option>
                                         <option value="10">10</option>
                                         <option value="25">25</option>
                                         <option value="50">50</option>
                                         <option value="100">100</option>
                                     </select>
-
                                 </div>
-
-                            </div>
+                            </nav>
                             <div class="card-datatable table-responsive pt-0">
                                 <table class="user-list-table table table-striped">
                                     <thead class="thead-light">

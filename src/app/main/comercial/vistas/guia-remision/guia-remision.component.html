@@ -56,7 +56,7 @@
                 <div class="col-3 custom-file text-right">
 
                     <label>
-                        Courier responsable:
+                        Nombre del courier responsable:
                     </label>
                 </div>
                 <div class="col-8 custom-file text-left">
@@ -70,11 +70,35 @@
                         <div *ngIf="submitted && facturacionControlsForm.courier.errors" class="invalid-feedback"
                              style="display: block;">
                             <div *ngIf="facturacionControlsForm.courier.errors.required">
-                                Courier responsable es requerido
+                                Nombre del courier responsable es requerido
                             </div>
-<!--                            <div *ngIf="facturacionControlsForm.courier.errors.email">-->
-<!--                                Ingrese un correo courier responsable-->
-<!--                            </div>-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-3 custom-file text-right">
+
+                    <label>
+                        Correo de courier resoponsable:
+                    </label>
+                </div>
+                <div class="col-8 custom-file text-left">
+
+                    <div class="custom-file">
+                        <input type="text"
+                               class="form-control"
+                               formControlName="emailCourier"
+                        >
+
+                        <div *ngIf="submitted && facturacionControlsForm.emailCourier.errors" class="invalid-feedback"
+                             style="display: block;">
+                            <div *ngIf="facturacionControlsForm.emailCourier.errors.required">
+                                Correo de courier resoponsable es requerido
+                            </div>
+                            <div *ngIf="facturacionControlsForm.emailCourier.errors.email">
+                                Ingrese un correo valido
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -12,7 +12,4 @@ export class DocumentosHabilitantesService {
     obtenerCredito(id) {
         return this._httpClient.get<any>(`${environment.apiUrl}/corp/creditoPersonas/listOne/${id}`);
     }
-    guardarDatos(data) {
-        return this._httpClient.post<any>(`${environment.apiUrl}/corp/notasPedidos/create/factura/`, data);
-    }
 }

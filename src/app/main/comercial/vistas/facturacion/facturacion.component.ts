@@ -4,6 +4,8 @@ import {ActivatedRoute, Params, Router} from '@angular/router';
 import {FacturacionService} from './facturacion.service';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {ConsultaCreditosAprobadosService} from '../consulta-creditos-aprobados/consulta-creditos-aprobados.service';
+import {CoreSidebarService} from '../../../../../@core/components/core-sidebar/core-sidebar.service';
+import {CoreMenuService} from '../../../../../@core/components/core-menu/core-menu.service';
 
 @Component({
     selector: 'app-facturacion',
@@ -23,6 +25,7 @@ export class FacturacionComponent implements OnInit {
     public mostrarCampos = true;
     public valuePay = false;
     public creditoAprobadoActual;
+    public usuario;
 
     constructor(
         private _formBuilder: FormBuilder,
@@ -31,7 +34,9 @@ export class FacturacionComponent implements OnInit {
         private _consultaCreditosAprobadosService: ConsultaCreditosAprobadosService,
         private route: ActivatedRoute,
         private modalService: NgbModal,
+        private _coreMenuService: CoreMenuService,
     ) {
+        this.usuario = this._coreMenuService.grpCorpUser;
     }
 
     ngOnInit(): void {
@@ -113,6 +118,8 @@ export class FacturacionComponent implements OnInit {
         this.actualizarCreditoFormData.append('pago', this.creditoAprobado.pago);
         this.actualizarCreditoFormData.delete('creditoPersona_id');
         this.actualizarCreditoFormData.append('creditoPersona_id', this.creditoAprobadoActual._id);
+        this.actualizarCreditoFormData.delete('casaComercial');
+        this.actualizarCreditoFormData.append('casaComercial', JSON.stringify(this.usuario.empresa));
         this._consultaCreditosService.guardarDatos(this.actualizarCreditoFormData).subscribe((info) => {
         }, (error) => {
             this.mensaje = 'Error al guardar los datos' + error;

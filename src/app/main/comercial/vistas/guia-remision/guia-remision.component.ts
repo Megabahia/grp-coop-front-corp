@@ -36,6 +36,7 @@ export class GuiaRemisionComponent implements OnInit {
             numeroGuia: ['', [Validators.required, Validators.pattern('^[0-9]+$'), Validators.minLength(10)]], //
             fecha: ['', [Validators.required]], //
             courier: ['', [Validators.required]], //
+            emailCourier: ['', [Validators.required, Validators.email]], //
             direccionEntrega: ['', [Validators.required]], //
             cooperativaAsignada: ['https://coopsanjose-corp.crediventa.com', [Validators.required]], //
         });
@@ -55,6 +56,7 @@ export class GuiaRemisionComponent implements OnInit {
             numeroEnvio: this.envioDocumentosForm.getRawValue().numeroGuia,
             fechaEnvio:  this.datePipe.transform(this.envioDocumentosForm.getRawValue().fecha, 'yyyy-MM-dd'),
             courierResponsable: this.envioDocumentosForm.getRawValue().courier,
+            correoCourierResponsable: this.envioDocumentosForm.getRawValue().emailCourier,
             direccionEntrega: this.envioDocumentosForm.getRawValue().direccionEntrega,
             cooperativaEntrega: this.envioDocumentosForm.getRawValue().cooperativaAsignada
         };

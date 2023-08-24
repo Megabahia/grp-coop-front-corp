@@ -20,7 +20,7 @@ export class EnvioDocumentosComponent implements OnInit {
     public dataUser;
     public soltero = false;
     public negocioPropio = false;
-    public credito;
+    public credito: any = {};
     public enviarForm = false;
     public facturaFisicaId = '';
 
@@ -33,7 +33,7 @@ export class EnvioDocumentosComponent implements OnInit {
     ) {
         this.creditoConsulta = JSON.parse(localStorage.getItem('creditoConsulta'));
         this._consultaCreditosService.getUltimaFactura({_id: localStorage.getItem('idCredito')}).subscribe((info) => {
-           this.facturaFisicaId = info._id;
+            this.facturaFisicaId = info._id;
         }, error => console.log('error', error));
     }
 
@@ -45,66 +45,50 @@ export class EnvioDocumentosComponent implements OnInit {
         //     this.modalOpenSLC('#modalSLC');
         // }
         this.actualizarCreditoFormData = new FormData();
-
-        this.envioForm = this._formBuilder.group({
-            solicitudCredito: [''], //
-            evaluacionCrediticia: [''], //
-            buro: [''], //
-            identificacion: ['', [Validators.required]], //
-            // ruc: ['', [Validators.required]], //
-            papeletaVotacion: ['', [Validators.required]], //
-            identificacionConyuge: [''], //
-            papeletaVotacionConyuge: [''], //
-            fotoCarnet: ['', [Validators.required]], //
-            planillaLuzDomicilio: ['', [Validators.required]], //
-            planillaLuzNegocio: [''], //
-            // facturasCompra: [''], //
-            // facturasVenta: [''], //
-            mecanizadoIees: ['', [Validators.required]], //
-            // matriculaVehiculo: ['', [Validators.required]], //
-            // impuestoPredial: ['', [Validators.required]], //
-            // autorizacionInformacion: ['', [Validators.required]], //
-            // fichaCliente: ['', [Validators.required]], //
-            // conveniosCuenta: ['', [Validators.required]], //
-            pagare: ['', [Validators.required]], //
-            tablaAmortizacion: ['', [Validators.required]], //
-            seguroDesgravamen: ['', [Validators.required]], //
-            // gastosAdministracion: ['', [Validators.required]], //
-            // buroCreditoIfis: ['', [Validators.required]],
-            contratosCuenta: ['', [Validators.required]],
-        });
-
+        this.actualizarFormulario();
         this._consultaCreditosService.getCredito({...this.creditoConsulta, page_size: 1, page: 0}).subscribe((info) => {
             this.credito = info.info[0];
             this.dataUser = info.info[0].user;
+            this.actualizarFormulario();
             if (this.credito.estadoCivil === 'Solter@' || this.credito.estadoCivil === 'Soltero' ||
                 this.credito.user.estadoCivil === 'Solter@' || this.credito.user.estadoCivil === 'Divorciado' ||
                 this.credito.estadoCivil === 'Divorciad@' || this.credito.estadoCivil === 'Divorciado') {
                 this.soltero = true;
-                this.envioForm.controls['identificacionConyuge'].clearValidators();
-                this.envioForm.controls['papeletaVotacionConyuge'].clearValidators();
+                if (!this.credito.identificacionConyuge) {
+                    this.envioForm.controls['identificacionConyuge'].clearValidators();
+                }
+                if (!this.credito.identificacionConyuge) {
+                    this.envioForm.controls['papeletaVotacionConyuge'].clearValidators();
+                }
             } else {
-                this.envioForm.controls['identificacionConyuge'].setValidators([Validators.required]);
-                this.envioForm.controls['identificacionConyuge'].setValue('');
-                this.envioForm.controls['papeletaVotacionConyuge'].setValidators([Validators.required]);
-                this.envioForm.controls['papeletaVotacionConyuge'].setValue('');
+                if (!this.credito.identificacionConyuge) {
+                    this.envioForm.controls['identificacionConyuge'].setValidators([Validators.required]);
+                    this.envioForm.controls['identificacionConyuge'].setValue('');
+                }
+                if (!this.credito.identificacionConyuge) {
+                    this.envioForm.controls['papeletaVotacionConyuge'].setValidators([Validators.required]);
+                    this.envioForm.controls['papeletaVotacionConyuge'].setValue('');
+                }
                 this.soltero = false;
             }
             if (this.dataUser.tipoPersona === 'Negocio propio') {
                 this.negocioPropio = true;
-                this.envioForm.controls['planillaLuzNegocio'].setValidators([Validators.required]);
-                this.envioForm.controls['planillaLuzNegocio'].setValue('');
-                this.envioForm.controls['facturasCompra'].setValidators([Validators.required]);
-                this.envioForm.controls['facturasCompra'].setValue('');
-                this.envioForm.controls['facturasVenta'].setValidators([Validators.required]);
-                this.envioForm.controls['facturasVenta'].setValue('');
+                if (!this.credito.planillaLuzNegocio) {
+                    this.envioForm.controls['planillaLuzNegocio'].setValidators([Validators.required]);
+                    this.envioForm.controls['planillaLuzNegocio'].setValue('');
+                }
+                if (!this.credito.facturasVenta) {
+
+                    this.envioForm.controls['facturasVenta'].setValidators([Validators.required]);
+                    this.envioForm.controls['facturasVenta'].setValue('');
+                }
             } else {
                 this.negocioPropio = false;
                 this.envioForm.controls['planillaLuzNegocio'].clearValidators();
-                this.envioForm.controls['facturasCompra'].clearValidators();
-                this.envioForm.controls['facturasVenta'].clearValidators();
-
+                // this.envioForm.controls['facturasCompra'].clearValidators();
+                // this.envioForm.controls['facturasVenta'].clearValidators();
             }
+            // this.envioForm.patchValue(this.credito);
         }, (error) => {
             this.mensaje = 'Error al guardar los datos' + error;
             // this.modalOpenSLC(modal);
@@ -143,6 +127,37 @@ export class EnvioDocumentosComponent implements OnInit {
             this.mensaje = 'Error al guardar los datos' + error;
             this.modalOpenSLC(modal);
             return;
+        });
+    }
+
+    actualizarFormulario() {
+        this.envioForm = this._formBuilder.group({
+            solicitudCredito: [''], //
+            evaluacionCrediticia: [''], //
+            buro: [''], //
+            identificacion: ['', !this.credito.identificacion ? [Validators.required] : []], //
+            // ruc: ['', [Validators.required]], //
+            papeletaVotacion: ['', !this.credito.papeletaVotacion ? [Validators.required] : []], //
+            identificacionConyuge: [''], //
+            papeletaVotacionConyuge: [''], //
+            fotoCarnet: ['', !this.credito.fotoCarnet ? [Validators.required] : []], //
+            planillaLuzDomicilio: ['', !this.credito.planillaLuzDomicilio ? [Validators.required] : []], //
+            planillaLuzNegocio: [''], //
+            // facturasCompra: [''], //
+            // facturasVenta: [''], //
+            fechaCompra: [new Date().toISOString().substring(0, 10)], //
+            mecanizadoIess: ['', !this.credito.mecanizadoIess ? [Validators.required] : []], //
+            // matriculaVehiculo: ['', [Validators.required]], //
+            // impuestoPredial: ['', [Validators.required]], //
+            // autorizacionInformacion: ['', [Validators.required]], //
+            // fichaCliente: ['', [Validators.required]], //
+            // conveniosCuenta: ['', [Validators.required]], //
+            pagare: ['', !this.credito.pagare ? [Validators.required] : []], //
+            tablaAmortizacion: ['', !this.credito.tablaAmortizacion ? [Validators.required] : []], //
+            seguroDesgravamen: ['', !this.credito.seguroDesgravamen ? [Validators.required] : []], //
+            // gastosAdministracion: ['', [Validators.required]], //
+            // buroCreditoIfis: ['', [Validators.required]],
+            contratosCuenta: ['', !this.credito.contratosCuenta ? [Validators.required] : []],
         });
     }
 

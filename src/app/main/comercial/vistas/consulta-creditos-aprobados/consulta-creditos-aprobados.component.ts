@@ -4,6 +4,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {ConsultaCreditosAprobadosService} from './consulta-creditos-aprobados.service';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {ToastrService} from 'ngx-toastr';
+import {CoreMenuService} from '../../../../../@core/components/core-menu/core-menu.service';
 
 @Component({
     selector: 'app-consulta-creditos-aprobados',
@@ -21,6 +22,7 @@ export class ConsultaCreditosAprobadosComponent implements OnInit {
     public actualizarCreditoFormData;
     private mensaje: string;
     private saldoDisponible = true;
+    public usuario;
 
     constructor(
         private modalService: NgbModal,
@@ -29,7 +31,9 @@ export class ConsultaCreditosAprobadosComponent implements OnInit {
         private _consultaCreditosService: ConsultaCreditosAprobadosService,
         private route: ActivatedRoute,
         private toastr: ToastrService,
+        private _coreMenuService: CoreMenuService,
     ) {
+        this.usuario = this._coreMenuService.grpCorpUser;
     }
 
     ngOnInit(): void {
@@ -66,7 +70,8 @@ export class ConsultaCreditosAprobadosComponent implements OnInit {
         }
         const data = {
             numeroIdentificacion: this.datosClienteForm.getRawValue().identificacion,
-            codigo: this.datosClienteForm.getRawValue().codigo
+            codigo: this.datosClienteForm.getRawValue().codigo,
+            empresaRuc: this.usuario.empresa.ruc,
         };
         this._consultaCreditosService.valdiar(data).subscribe(info => {
             localStorage.setItem('creditoConsulta', JSON.stringify({identificacion: info.numeroIdentificacion, estado: 'Aprobado'}));

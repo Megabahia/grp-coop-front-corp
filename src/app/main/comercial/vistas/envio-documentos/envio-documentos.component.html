@@ -6,7 +6,7 @@
             </h5>
         </div>
         <div class="modal-body flex-grow-1">
-            <div class="form-group" *ngIf="!credito?.solicitudCredito">
+            <div class="form-group" *ngIf="!tieneDocumentosFirmados">
                 <label>
                     Solicitud de crédito
                 </label>
@@ -26,7 +26,7 @@
                     </div>
                 </div>
             </div>
-            <div class="form-group" *ngIf="!credito?.evaluacionCrediticia">
+            <div class="form-group" *ngIf="!tieneDocumentosFirmados">
                 <label>
                     Evaluación crediticia
                 </label>
@@ -47,7 +47,7 @@
                     </div>
                 </div>
             </div>
-            <div class="form-group" *ngIf="!credito?.buroCredito">
+            <div class="form-group" *ngIf="!tieneDocumentosFirmados">
                 <label>
                     Documento Buró
                 </label>
@@ -180,7 +180,7 @@
                     </div>
                 </div>
             </div>
-            <div class="form-group" *ngIf="!credito?.fotoCarnet">
+            <div class="form-group" *ngIf="!tieneDocumentosFirmados">
                 <label>
                     Foto tamaño carnet
                 </label>
@@ -222,7 +222,7 @@
                     </div>
                 </div>
             </div>
-            <div class="form-group" *ngIf="!credito?.planillaLuzDomicilio">
+            <div class="form-group" *ngIf="!tieneDocumentosFirmados">
                 <label>
                     Copia de planilla de luz del Domicilio
                 </label>
@@ -286,7 +286,7 @@
             <!--            </div>-->
 
 
-            <div class="form-group" *ngIf="!credito?.mecanizadoIess">
+            <div class="form-group" *ngIf="!tieneDocumentosFirmados">
                 <label>
                     Mecanizado del IESS
                 </label>
@@ -408,7 +408,7 @@
             <!--                    </div>-->
             <!--                </div>-->
             <!--            </div>-->
-            <div class="form-group" *ngIf="!credito?.pagare">
+            <div class="form-group" *ngIf="!tieneDocumentosFirmados">
                 <label>
                     Pagare
                 </label>
@@ -428,7 +428,7 @@
                     </div>
                 </div>
             </div>
-            <div class="form-group" *ngIf="!credito?.tablaAmortizacion">
+            <div class="form-group" *ngIf="tieneDocumentosFirmados">
                 <label>
                     Tabla de amortización
                 </label>
@@ -449,7 +449,7 @@
                     </div>
                 </div>
             </div>
-            <div class="form-group" *ngIf="!credito?.seguroDesgravamen">
+            <div class="form-group" *ngIf="!tieneDocumentosFirmados">
                 <label>
                     Seguro de desgravamen
                 </label>
@@ -510,7 +510,7 @@
             <!--                    </div>-->
             <!--                </div>-->
             <!--            </div>-->
-            <div class="form-group" *ngIf="!credito?.contratosCuenta">
+            <div class="form-group" *ngIf="!tieneDocumentosFirmados">
                 <label>
                     Contratos de cuenta
                 </label>

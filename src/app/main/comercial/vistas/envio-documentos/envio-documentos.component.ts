@@ -23,6 +23,7 @@ export class EnvioDocumentosComponent implements OnInit {
     public credito: any = {};
     public enviarForm = false;
     public facturaFisicaId = '';
+    public tieneDocumentosFirmados = false;
 
     constructor(
         private _formBuilder: FormBuilder,
@@ -30,6 +31,7 @@ export class EnvioDocumentosComponent implements OnInit {
         private route: ActivatedRoute,
         private _consultaCreditosService: EnvioDocumentosService,
         private modalService: NgbModal,
+        private _fatturacion: FacturacionService,
     ) {
         this.creditoConsulta = JSON.parse(localStorage.getItem('creditoConsulta'));
         this._consultaCreditosService.getUltimaFactura({_id: localStorage.getItem('idCredito')}).subscribe((info) => {
@@ -46,6 +48,9 @@ export class EnvioDocumentosComponent implements OnInit {
         // }
         this.actualizarCreditoFormData = new FormData();
         this.actualizarFormulario();
+        this._fatturacion.consultarDatosaArchivos({numeroIdentificacion: this.creditoConsulta.identificacion}).subscribe((info) => {
+            this.tieneDocumentosFirmados = info._id !== null;
+        });
         this._consultaCreditosService.getCredito({...this.creditoConsulta, page_size: 1, page: 0}).subscribe((info) => {
             this.credito = info.info[0];
             this.dataUser = info.info[0].user;
@@ -135,29 +140,29 @@ export class EnvioDocumentosComponent implements OnInit {
             solicitudCredito: [''], //
             evaluacionCrediticia: [''], //
             buro: [''], //
-            identificacion: ['', !this.credito.identificacion ? [Validators.required] : []], //
+            identificacion: ['', !this.tieneDocumentosFirmados ? [Validators.required] : []], //
             // ruc: ['', [Validators.required]], //
-            papeletaVotacion: ['', !this.credito.papeletaVotacion ? [Validators.required] : []], //
+            papeletaVotacion: ['', !this.tieneDocumentosFirmados ? [Validators.required] : []], //
             identificacionConyuge: [''], //
             papeletaVotacionConyuge: [''], //
-            fotoCarnet: ['', !this.credito.fotoCarnet ? [Validators.required] : []], //
-            planillaLuzDomicilio: ['', !this.credito.planillaLuzDomicilio ? [Validators.required] : []], //
+            fotoCarnet: ['', !this.tieneDocumentosFirmados ? [Validators.required] : []], //
+            planillaLuzDomicilio: ['', !this.tieneDocumentosFirmados ? [Validators.required] : []], //
             planillaLuzNegocio: [''], //
             // facturasCompra: [''], //
             // facturasVenta: [''], //
             fechaCompra: [new Date().toISOString().substring(0, 10)], //
-            mecanizadoIess: ['', !this.credito.mecanizadoIess ? [Validators.required] : []], //
+            mecanizadoIess: ['', !this.tieneDocumentosFirmados ? [Validators.required] : []], //
             // matriculaVehiculo: ['', [Validators.required]], //
             // impuestoPredial: ['', [Validators.required]], //
             // autorizacionInformacion: ['', [Validators.required]], //
             // fichaCliente: ['', [Validators.required]], //
             // conveniosCuenta: ['', [Validators.required]], //
-            pagare: ['', !this.credito.pagare ? [Validators.required] : []], //
-            tablaAmortizacion: ['', !this.credito.tablaAmortizacion ? [Validators.required] : []], //
-            seguroDesgravamen: ['', !this.credito.seguroDesgravamen ? [Validators.required] : []], //
+            pagare: ['', !this.tieneDocumentosFirmados ? [Validators.required] : []], //
+            tablaAmortizacion: ['', !this.tieneDocumentosFirmados ? [Validators.required] : []], //
+            seguroDesgravamen: ['', !this.tieneDocumentosFirmados ? [Validators.required] : []], //
             // gastosAdministracion: ['', [Validators.required]], //
             // buroCreditoIfis: ['', [Validators.required]],
-            contratosCuenta: ['', !this.credito.contratosCuenta ? [Validators.required] : []],
+            contratosCuenta: ['', !this.tieneDocumentosFirmados ? [Validators.required] : []],
         });
     }
 

@@ -115,7 +115,8 @@ export class EnvioDocumentosComponent implements OnInit {
 
     enviar(modal) {
         this.submitted = true;
-        if (this.envioForm.invalid) {
+        if (this.actualizarCreditoFormData.invalid) {
+            console.log(this.actualizarCreditoFormData);
             return;
         }
         this.enviarForm = true;

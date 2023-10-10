@@ -121,6 +121,7 @@ export class EnvioDocumentosComponent implements OnInit {
         }
         this.enviarForm = true;
         this.actualizarCreditoFormData.set('numeroIdentificacion', this.identificacion);
+        this.actualizarCreditoFormData.set('credito_id', localStorage.getItem('idCredito'));
         this._consultaCreditosService.guardarDatos(this.actualizarCreditoFormData).subscribe((info) => {
             this._consultaCreditosService.actualizarFacturaFisica({estado: 'Pendiente', _id: this.facturaFisicaId}).subscribe((data) => {
                 this.enviarForm = false;

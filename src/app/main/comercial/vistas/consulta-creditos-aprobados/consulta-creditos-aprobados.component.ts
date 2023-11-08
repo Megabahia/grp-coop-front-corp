@@ -6,6 +6,15 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {ToastrService} from 'ngx-toastr';
 import {CoreMenuService} from '../../../../../@core/components/core-menu/core-menu.service';
 
+/**
+ * COOP
+ * Corp
+ * ESta pantalla sirve para consultar los creditos
+ * Rutas:
+ * `${environment.apiUrl}/corp/creditoPersonas/validar/codigo/creditoAprobado`,
+ * `${environment.apiUrl}/corp/creditoPersonas/generar/codigo/creditoAprobado`,
+ */
+
 @Component({
     selector: 'app-consulta-creditos-aprobados',
     templateUrl: './consulta-creditos-aprobados.component.html',
@@ -20,8 +29,8 @@ export class ConsultaCreditosAprobadosComponent implements OnInit {
     public codigo;
     public credito;
     public actualizarCreditoFormData;
-    private mensaje: string;
-    private saldoDisponible = true;
+    public mensaje: string;
+    public saldoDisponible = true;
     public usuario;
 
     constructor(

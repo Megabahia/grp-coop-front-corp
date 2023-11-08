@@ -5,6 +5,13 @@ import {FacturacionService} from '../facturacion/facturacion.service';
 import {EnvioDocumentosService} from './envio-documentos.service';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
+/**
+ * COOP
+ * Corp
+ * ESta pantalla sirve para subir los archivos de los documentos habilitantes
+ * Rutas:
+ * `${environment.apiUrl}/corp/creditoArchivos/subir/documentosFirmados`,
+ */
 @Component({
     selector: 'app-envio-documentos',
     templateUrl: './envio-documentos.component.html',
@@ -14,7 +21,7 @@ export class EnvioDocumentosComponent implements OnInit {
     public submitted = false;
     public envioForm: FormGroup;
     public actualizarCreditoFormData;
-    private mensaje: string;
+    public mensaje: string;
     public identificacion;
     private creditoConsulta;
     public dataUser;

@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {CoreConfigService} from '@core/services/config.service';
@@ -10,13 +10,21 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {environment} from '../../../../environments/environment';
 import {ToastrService} from 'ngx-toastr';
 
+/*
+* COOP
+* Personas
+* Este pantalla sirve para registar a un usuario
+* Rutas:
+* `${environment.apiUrl}/central/usuarios/create/`,
+* */
+
 
 @Component({
     selector: 'app-registro',
     templateUrl: './registro.component.html',
     styleUrls: ['./registro.component.scss']
 })
-export class RegistroComponent implements OnInit {
+export class RegistroComponent implements OnInit, OnDestroy {
     @ViewChild('mensajeModal') mensajeModal;
     @ViewChild('mensajeConfirmModal') mensajeConfirmModal;
     //  Public
@@ -28,9 +36,6 @@ export class RegistroComponent implements OnInit {
     public mensaje: string;
     public mensajeConfirm = '';
     public error = '';
-    public passwordTextType: boolean;
-    public confirmPasswordTextType: boolean;
-    public passwordSimilar: boolean;
 
     // Private
     private _unsubscribeAll: Subject<any>;
@@ -39,11 +44,6 @@ export class RegistroComponent implements OnInit {
     public email = '';
     public nombre = '';
 
-    /**
-     * Constructor
-     *
-     * @param {CoreConfigService} _coreConfigService
-     */
     constructor(
         private _coreConfigService: CoreConfigService,
         private _registroService: RegistroService,
@@ -81,17 +81,6 @@ export class RegistroComponent implements OnInit {
     // convenience getter for easy access to form fields
     get f() {
         return this.registerForm.controls;
-    }
-
-    /**
-     * Toggle password
-     */
-    togglePasswordTextType() {
-        this.passwordTextType = !this.passwordTextType;
-    }
-
-    toggleConfirmPasswordTextType() {
-        this.confirmPasswordTextType = !this.confirmPasswordTextType;
     }
 
     registrarUsuario() {
@@ -169,14 +158,6 @@ export class RegistroComponent implements OnInit {
         this._coreConfigService.config.pipe(takeUntil(this._unsubscribeAll)).subscribe(config => {
             this.coreConfig = config;
         });
-    }
-
-    compararPassword() {
-        if (this.f.password.value == this.f.confirmPassword.value) {
-            this.passwordSimilar = true;
-        } else {
-            this.passwordSimilar = false;
-        }
     }
 
     abrirModal(modal) {

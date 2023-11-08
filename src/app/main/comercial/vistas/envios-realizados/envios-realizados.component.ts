@@ -1,6 +1,14 @@
 import {Component, OnInit} from '@angular/core';
 import {EnviosRealizadosService} from './envios-realizados.service';
 
+/**
+ * COOP
+ * Corp
+ * ESta pantalla sirve para generar el envio de los documentos mediante un courier
+ * Rutas:
+ * `${environment.apiUrl}/corp/envios/list/`,
+ */
+
 @Component({
     selector: 'app-envios-realizados',
     templateUrl: './envios-realizados.component.html',
@@ -24,6 +32,7 @@ export class EnviosRealizadosComponent implements OnInit {
                 this.envios = data.info;
             });
     }
+
     datosCliente(cliente) {
         this.cliente = JSON.parse(cliente);
         return this.cliente.nombre + ' ' + this.cliente.apellido;

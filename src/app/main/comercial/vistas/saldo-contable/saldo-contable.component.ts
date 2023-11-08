@@ -1,7 +1,13 @@
 import {Component, OnInit} from '@angular/core';
-import {EnviosRealizadosService} from '../envios-realizados/envios-realizados.service';
 import {SaldoContableService} from './saldo-contable.service';
 
+/**
+ * COOP
+ * Corp
+ * ESta pantalla sirve para mostrar el saldo contable
+ * Rutas:
+ * No tiene llamado de rutas
+ */
 @Component({
     selector: 'app-saldo-contable',
     templateUrl: './saldo-contable.component.html',

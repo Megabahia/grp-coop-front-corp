@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {DatePipe} from '@angular/common';
 import {ExportService} from 'app/services/export.service';
 import {CoreMenuService} from '@core/components/core-menu/core-menu.service';
@@ -11,13 +11,24 @@ import {NotasPedidoService} from 'app/main/comercial/vistas/notas-pedido/notas-p
 import {Iva, NotaPedido} from 'app/main/comercial/models/comercial';
 import {Router} from '@angular/router';
 
+/**
+ * COOP
+ * Corp
+ * Esta pantalla sirve para mostrar los creditos preaprobados
+ * Rutas:
+ * `${environment.apiUrl}/central/param/list/tipo/todos/`,
+ * `${environment.apiUrl}/personas/personas/listOne/cedula/`,
+ * `${environment.apiUrl}/corp/notasPedidos/create/`,
+ * `${environment.apiUrl}/corp/creditoPersonas/list/`,
+ * `${environment.apiUrl}/corp/creditoPersonas/listOne/persona/${id}`
+ */
 @Component({
     selector: 'app-creditos-preaprobados',
     templateUrl: './creditos-preaprobados.component.html',
     styleUrls: ['./creditos-preaprobados.component.scss'],
     providers: [DatePipe],
 })
-export class CreditosPreaprobadosComponent implements OnInit {
+export class CreditosPreaprobadosComponent implements OnInit, AfterViewInit {
     @ViewChild('mensajeModal') mensajeModal;
     @ViewChild('mensajeAfirmacionl') mensajeAfirmacionl;
     public page = 1;
@@ -170,8 +181,7 @@ export class CreditosPreaprobadosComponent implements OnInit {
 
     addItem() {
         this.detalles.push(this.inicializarDetalle());
-        let detGrupo = this.crearDetalleGrupo();
-        this.detallesArray.push(detGrupo);
+        this.detallesArray.push(this.crearDetalleGrupo());
     }
 
     inicializarIva(): Iva {
@@ -235,18 +245,18 @@ export class CreditosPreaprobadosComponent implements OnInit {
     }
 
     calcularSubtotal() {
-        let detalles = this.detalles;
+        const detalles = this.detalles;
         let subtotal = 0;
         let descuento = 0;
         let cantidad = 0;
         if (detalles) {
             detalles.map((valor) => {
-                let valorUnitario = Number(valor.valorUnitario)
+                const valorUnitario = Number(valor.valorUnitario)
                     ? Number(valor.valorUnitario)
                     : 0;
-                let porcentDescuento = valor.descuento ? valor.descuento : 0;
-                let cantidadProducto = valor.cantidad ? valor.cantidad : 0;
-                let precio = cantidadProducto * valorUnitario;
+                const porcentDescuento = valor.descuento ? valor.descuento : 0;
+                const cantidadProducto = valor.cantidad ? valor.cantidad : 0;
+                const precio = cantidadProducto * valorUnitario;
 
                 valor.valorDescuento = this.redondeoValor(
                     precio * (porcentDescuento / 100)
@@ -276,11 +286,9 @@ export class CreditosPreaprobadosComponent implements OnInit {
     }
 
     redondear(num, decimales = 2) {
-        var signo = num >= 0 ? 1 : -1;
+        const signo = num >= 0 ? 1 : -1;
         num = num * signo;
-        if (decimales === 0)
-            //con 0 decimales
-        {
+        if (decimales === 0) {
             return signo * Math.round(num);
         }
         // round(x * 10 ^ decimales)
@@ -290,10 +298,7 @@ export class CreditosPreaprobadosComponent implements OnInit {
         );
         // x * 10 ^ (-decimales)
         num = num.toString().split('e');
-        let valor =
-            signo *
-            Number(num[0] + 'e' + (num[1] ? +num[1] - decimales : -decimales));
-        return valor;
+        return signo * Number(num[0] + 'e' + (num[1] ? +num[1] - decimales : -decimales));
     }
 
     ngAfterViewInit() {
@@ -302,8 +307,7 @@ export class CreditosPreaprobadosComponent implements OnInit {
     }
 
     transformarFecha(fecha) {
-        let nuevaFecha = this.datePipe.transform(fecha, 'yyyy-MM-dd');
-        return nuevaFecha;
+        return this.datePipe.transform(fecha, 'yyyy-MM-dd');
     }
 
     toggleSidebar(name, id): void {
@@ -324,7 +328,7 @@ export class CreditosPreaprobadosComponent implements OnInit {
             'WhatsApp',
         ];
         if (this.listaCreditos) {
-            let objetoExportar = Object.create(this.listaCreditos);
+            const objetoExportar = Object.create(this.listaCreditos);
             objetoExportar.forEach((row: any) => {
                 const values = [];
                 values.push(this.transformarFecha(row['fechaCobro']));

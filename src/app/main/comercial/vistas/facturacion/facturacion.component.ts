@@ -4,8 +4,16 @@ import {ActivatedRoute, Params, Router} from '@angular/router';
 import {FacturacionService} from './facturacion.service';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {ConsultaCreditosAprobadosService} from '../consulta-creditos-aprobados/consulta-creditos-aprobados.service';
-import {CoreSidebarService} from '../../../../../@core/components/core-sidebar/core-sidebar.service';
 import {CoreMenuService} from '../../../../../@core/components/core-menu/core-menu.service';
+
+/**
+ * COOP
+ * Corp
+ * ESta pantalla sirve para cargar la factura del cliente con sus datos
+ * Rutas:
+ * `${environment.apiUrl}/corp/creditoPersonas/listOne/${id}`
+ * `${environment.apiUrl}/corp/notasPedidos/create/factura/`,
+ */
 
 @Component({
     selector: 'app-facturacion',
@@ -19,7 +27,7 @@ export class FacturacionComponent implements OnInit {
     public idCredito;
     public credito;
     public creditoAprobado;
-    private mensaje: string;
+    public mensaje: string;
     public cliente;
     public montoAprobado;
     public mostrarCampos = true;
@@ -174,12 +182,7 @@ export class FacturacionComponent implements OnInit {
     }
 
     selectedMethodePay(value) {
-        if (value !== '') {
-            this.valuePay = true;
-        } else {
-            this.valuePay = false;
-
-        }
+        this.valuePay = value !== '';
 
     }
 }

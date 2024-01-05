@@ -95,7 +95,7 @@ export class FacturacionComponent implements OnInit {
     }
 
     siguiente(modal) {
-        if (localStorage.getItem('montoDisponible') < this.factruacionForm.get('pago').value) {
+        if (Number(localStorage.getItem('montoDisponible')) < Number(this.factruacionForm.get('valorTotal').value)) {
             if (!confirm('El valor total de la compra es mayor al Monto de Crédito Aprobado. Desea continuar?')) {
                 return;
             }

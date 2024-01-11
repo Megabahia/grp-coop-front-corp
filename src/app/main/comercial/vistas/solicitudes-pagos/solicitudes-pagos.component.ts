@@ -1,6 +1,14 @@
 import {Component, OnInit} from '@angular/core';
 import {SolicitudesPagosService} from './solicitudes-pagos.service';
 
+/**
+ * COOP
+ * Corp
+ * Esta pantalla sirve para mostrar los pagos
+ * Rutas:
+ * `${environment.apiUrl}/corp/notasPedidos/list/factura/`,
+ */
+
 @Component({
     selector: 'app-solicitudes-pagos',
     templateUrl: './solicitudes-pagos.component.html',

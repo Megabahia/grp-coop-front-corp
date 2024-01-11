@@ -1,7 +1,15 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {DocumentosHabilitantesService} from './documentos-habilitantes.service';
-import {Validators} from '@angular/forms';
+
+/**
+ * COOp
+ * Corp
+ * Esta pantalla sirve para mostrar los documentos habilitantes
+ * Rutas:
+ * `${environment.apiUrl}/corp/creditoPersonas/listOne/${id}`
+ */
+
 
 @Component({
     selector: 'app-documentos-habilitantes',
@@ -29,8 +37,14 @@ export class DocumentosHabilitantesComponent implements OnInit {
         {'label': 'Copia de planilla de luz del Negocio, Oficina o de la Asociación', 'valor': 'planillaLuzNegocio'},
         {'label': 'Copia de la Factura de venta del último mes', 'valor': 'facturasVentas2meses'},
         {'label': 'Copia de la Factura de venta del penúltimo mes (hace 2 meses)', 'valor': 'facturasVentas2meses2'},
-        {'label': 'Certificado de la Asociación (es opcional y aplica si usted es transportista: Bus o Taxi)', 'valor': 'facturasVentasCertificado'},
-        {'label': 'Certificado de la Asociación (es opcional y aplica si usted es transportista: Bus o Taxi)', 'valor': 'facturasVentasCertificado'},
+        {
+            'label': 'Certificado de la Asociación (es opcional y aplica si usted es transportista: Bus o Taxi)',
+            'valor': 'facturasVentasCertificado'
+        },
+        {
+            'label': 'Certificado de la Asociación (es opcional y aplica si usted es transportista: Bus o Taxi)',
+            'valor': 'facturasVentasCertificado'
+        },
 
         {'label': 'Solicitud de crédito', 'valor': 'solicitudCredito'},
         {'label': 'Evaluación crediticia', 'valor': 'evaluacionCrediticia'},
@@ -46,7 +60,9 @@ export class DocumentosHabilitantesComponent implements OnInit {
         private _consultaCreditosService: DocumentosHabilitantesService,
     ) {
     }
-public ver = false;
+
+    public ver = false;
+
     ngOnInit(): void {
         this.route.params.subscribe((params: Params) => this.idCredito = params['identificacion']);
         this._consultaCreditosService.obtenerCredito(this.idCredito).subscribe((info) => {

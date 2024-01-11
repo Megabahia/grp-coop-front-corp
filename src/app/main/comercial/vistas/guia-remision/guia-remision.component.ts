@@ -5,6 +5,13 @@ import {GuiaRemisionService} from './guia-remision.service';
 import {FlatpickrOptions} from 'ng2-flatpickr';
 import {DatePipe} from '@angular/common';
 
+/**
+ * COOP
+ * Corp
+ * ESta pantalla sirve para mostrar la guia de remision del envio de documentos
+ * Rutas:
+ * `${environment.apiUrl}/corp/envios/create/`,
+ */
 @Component({
     selector: 'app-guia-remision',
     templateUrl: './guia-remision.component.html',
@@ -54,7 +61,7 @@ export class GuiaRemisionComponent implements OnInit {
         }
         const data = {
             numeroEnvio: this.envioDocumentosForm.getRawValue().numeroGuia,
-            fechaEnvio:  this.datePipe.transform(this.envioDocumentosForm.getRawValue().fecha, 'yyyy-MM-dd'),
+            fechaEnvio: this.datePipe.transform(this.envioDocumentosForm.getRawValue().fecha, 'yyyy-MM-dd'),
             courierResponsable: this.envioDocumentosForm.getRawValue().courier,
             correoCourierResponsable: this.envioDocumentosForm.getRawValue().emailCourier,
             direccionEntrega: this.envioDocumentosForm.getRawValue().direccionEntrega,
